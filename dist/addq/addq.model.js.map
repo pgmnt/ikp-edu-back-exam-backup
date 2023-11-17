@@ -1,0 +1,1 @@
+{"version":3,"file":"addq.model.js","sourceRoot":"","sources":["../../src/addq/addq.model.ts"],"names":[],"mappings":";;;AAEA,qCAAqC;AAExB,QAAA,kBAAkB,GAAG,IAAI,QAAQ,CAAC,MAAM,CAAC;IACpD,UAAU,EAAE,MAAM;IAClB,SAAS,EAAE;QACT;YACE,GAAG,EAAE,MAAM;YACX,aAAa,EAAE,MAAM;YACrB,OAAO,EAAE;gBACP;oBACE,GAAG,EAAE,MAAM;oBACX,SAAS,EAAE,OAAO;iBACnB;aACF;SACF;KACF;CACF,CAAC,CAAC"}
