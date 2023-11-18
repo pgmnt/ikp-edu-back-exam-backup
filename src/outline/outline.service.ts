@@ -204,14 +204,9 @@ export class OutlineService {
             console.error('lectureDetail.quiz is either undefined or an empty array.');
           }
         }
-
-        
-
-
-        
+  
         // Now lecture_child is an array of resolved promises
         
-
         const newOutline = new this.OutlineModel({
           question : outline.question,
           description : outline.description,

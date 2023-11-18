@@ -30,6 +30,15 @@ let ChatGptAiController = class ChatGptAiController {
     Get_Course(id) {
         return this.service.get_Course(id);
     }
+    async deleteLearningPath(courseId, lectureId) {
+        try {
+            await this.service.deleteLearningPath(courseId, lectureId);
+            return { message: 'Learning path or lecture deleted successfully' };
+        }
+        catch (error) {
+            throw new common_1.NotFoundException('Learning path or lecture not found');
+        }
+    }
 };
 exports.ChatGptAiController = ChatGptAiController;
 __decorate([
@@ -53,6 +62,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ChatGptAiController.prototype, "Get_Course", null);
+__decorate([
+    (0, common_1.Delete)('/learningPath/:courseId/:lectureId'),
+    __param(0, (0, common_1.Param)('courseId')),
+    __param(1, (0, common_1.Param)('lectureId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], ChatGptAiController.prototype, "deleteLearningPath", null);
 exports.ChatGptAiController = ChatGptAiController = __decorate([
     (0, common_1.Controller)('api'),
     __metadata("design:paramtypes", [chat_gpt_ai_service_1.ChatGptAiService])

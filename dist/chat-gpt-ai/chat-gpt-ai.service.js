@@ -155,6 +155,18 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
             throw error;
         }
     }
+    async deleteLearningPath(courseId, lectureId) {
+        try {
+            const result = await this.ChatGptResponseModel.updateOne({ '_id': courseId }, { $pull: { lectureDetails: { '_id': lectureId } } });
+            if (!result) {
+                throw new common_1.NotFoundException('Learning path or lecture not found');
+            }
+        }
+        catch (error) {
+            this.logger.error('Error deleting learning path or lecture: ', error);
+            throw error;
+        }
+    }
 };
 exports.ChatGptAiService = ChatGptAiService;
 exports.ChatGptAiService = ChatGptAiService = ChatGptAiService_1 = __decorate([

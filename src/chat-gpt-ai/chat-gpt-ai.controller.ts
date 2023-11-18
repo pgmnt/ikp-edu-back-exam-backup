@@ -3,6 +3,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -48,5 +49,19 @@ export class ChatGptAiController {
       return this.service.get_Course(id)
   }
 
-  
+  @Delete('/learningPath/:courseId/:lectureId')
+  async deleteLearningPath(
+    @Param('courseId') courseId: string,
+    @Param('lectureId') lectureId: string,
+  ) {
+    try {
+      // Call your service method to delete the learning path or lecture
+      await this.service.deleteLearningPath(courseId, lectureId);
+      return { message: 'Learning path or lecture deleted successfully' };
+    } catch (error) {
+      // Handle errors appropriately (e.g., return an error response)
+      throw new NotFoundException('Learning path or lecture not found');
+    }
+  }
+
 }

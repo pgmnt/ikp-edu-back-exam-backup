@@ -37,4 +37,7 @@ export declare class ChatGptAiController {
     }>) | {
         msg: string;
     }>;
+    deleteLearningPath(courseId: string, lectureId: string): Promise<{
+        message: string;
+    }>;
 }

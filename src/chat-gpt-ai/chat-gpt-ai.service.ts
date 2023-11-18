@@ -1,5 +1,5 @@
 //chat-gpt-ai.service
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Configuration, CreateCompletionRequest, OpenAIApi } from 'openai';
@@ -184,6 +184,23 @@ export class ChatGptAiService {
           console.log(error)
           throw error
       }
+  }
+
+  async deleteLearningPath(courseId: string, lectureId: string) {
+    try {
+      // Implement the logic to delete the learning path or lecture by its courseId and lectureId
+      const result = await this.ChatGptResponseModel.updateOne(
+        { '_id': courseId },
+        { $pull: { lectureDetails: { '_id': lectureId } } },
+      );
+
+      if (!result) {
+        throw new NotFoundException('Learning path or lecture not found');
+      }
+    } catch (error) {
+      this.logger.error('Error deleting learning path or lecture: ', error);
+      throw error;
+    }
   }
 
 }

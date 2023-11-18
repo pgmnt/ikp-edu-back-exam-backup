@@ -51,4 +51,5 @@ export declare class ChatGptAiService {
     }>) | {
         msg: string;
     }>;
+    deleteLearningPath(courseId: string, lectureId: string): Promise<void>;
 }
