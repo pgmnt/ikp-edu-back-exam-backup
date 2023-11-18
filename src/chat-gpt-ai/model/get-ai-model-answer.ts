@@ -5,6 +5,7 @@ const DEFAULT_MODEL_ID  = "text-davinci-003"
 const DEFAULT_TEMPERATURE = 0.9
 const DEFAULT_MAX_TOKENS = 2048
 
+//test
 export class GetAiModelAnswer{
 
     @IsString()
