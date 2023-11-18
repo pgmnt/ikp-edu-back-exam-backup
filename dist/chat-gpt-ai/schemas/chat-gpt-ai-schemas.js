@@ -9,8 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChatSchema = exports.ChatGptAiResponse = void 0;
+exports.ChatSchema = exports.ChatGptAiResponse = exports.Level = exports.Category = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+var Category;
+(function (Category) {
+    Category["PROGRAMMING"] = "Programming";
+    Category["GRAPHIC"] = "Graphic";
+})(Category || (exports.Category = Category = {}));
+var Level;
+(function (Level) {
+    Level["LV1"] = "Easy";
+    Level["LV2"] = "Hard";
+})(Level || (exports.Level = Level = {}));
 let ChatGptAiResponse = class ChatGptAiResponse {
 };
 exports.ChatGptAiResponse = ChatGptAiResponse;
@@ -30,6 +40,14 @@ __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], ChatGptAiResponse.prototype, "description", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ChatGptAiResponse.prototype, "level", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], ChatGptAiResponse.prototype, "category", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)

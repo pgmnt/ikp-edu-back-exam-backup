@@ -7,6 +7,8 @@ exports.ChatGptResponseSchema = new mongoose.Schema({
     answer: String,
     modelId: String,
     description: String,
+    level: String,
+    Category: String,
     requirement: String,
     lectureDetails: [
         {

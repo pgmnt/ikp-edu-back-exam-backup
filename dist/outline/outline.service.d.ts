@@ -37,7 +37,7 @@ export declare class OutlineService {
         msg: string;
         data: import("mongoose").Types.ObjectId;
     }>;
-    getid(id: string): Promise<(import("mongoose").Document<unknown, {}, Outline> & Outline & {
+    getid(id: string): Promise<ErrorConstructor | (import("mongoose").Document<unknown, {}, Outline> & Outline & {
         _id: import("mongoose").Types.ObjectId;
-    }) | ErrorConstructor>;
+    })>;
 }

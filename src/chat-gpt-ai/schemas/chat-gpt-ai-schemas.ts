@@ -1,6 +1,16 @@
 // chat-gpt-ai-schemas.ts
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
+export enum Category {
+  PROGRAMMING = 'Programming',
+  GRAPHIC = 'Graphic',
+}
+
+export enum Level {
+  LV1 = 'Easy',
+  LV2 = 'Hard',
+}
+
 @Schema()
 export class ChatGptAiResponse {
 
@@ -15,6 +25,12 @@ export class ChatGptAiResponse {
 
   @Prop()
   description: String;
+
+  @Prop()
+  level: Level;
+
+  @Prop()
+  category: Category;
 
   @Prop()
   requirement: String;

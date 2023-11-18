@@ -31,7 +31,7 @@ export declare class OutlineController {
         msg: string;
         data: import("mongoose").Types.ObjectId;
     }>;
-    getid(id: string): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/outline.schema").Outline> & import("./schemas/outline.schema").Outline & {
+    getid(id: string): Promise<ErrorConstructor | (import("mongoose").Document<unknown, {}, import("./schemas/outline.schema").Outline> & import("./schemas/outline.schema").Outline & {
         _id: import("mongoose").Types.ObjectId;
-    }) | ErrorConstructor>;
+    })>;
 }

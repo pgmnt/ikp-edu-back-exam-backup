@@ -71,7 +71,7 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
                 const { description, requirements } = await this.extractDescriptionAndRequirements(answerText);
                 const lectureDetails = this.parseLectureDetails(answerText);
                 if (lectureDetails.length > 0) {
-                    const resData = await this.saveGptResponse(input.question, answerText, input.getModelId(), description, requirements, lectureDetails);
+                    const resData = await this.saveGptResponse(input.question, answerText, input.getModelId(), description, input.level, input.category, requirements, lectureDetails);
                     return resData;
                 }
                 else {
@@ -109,12 +109,14 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
         }
         return lectureDetails;
     }
-    async saveGptResponse(question, answer, modelId, description, requirement, lectureDetails) {
+    async saveGptResponse(question, answer, modelId, description, level, category, requirement, lectureDetails) {
         const formattedResponse = new this.ChatGptResponseModel({
             question,
             answer,
             modelId,
             description,
+            level,
+            category,
             requirement,
             lectureDetails: lectureDetails.map((lecture) => ({
                 lectureNumber: lecture.lectureNumber,

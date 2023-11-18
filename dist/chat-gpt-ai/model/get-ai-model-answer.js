@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetAiModelAnswer = void 0;
 const class_validator_1 = require("class-validator");
+const chat_gpt_ai_schemas_1 = require("../schemas/chat-gpt-ai-schemas");
 const DEFAULT_MODEL_ID = "text-davinci-003";
 const DEFAULT_TEMPERATURE = 0.9;
 const DEFAULT_MAX_TOKENS = 2048;
@@ -47,6 +48,16 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], GetAiModelAnswer.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(chat_gpt_ai_schemas_1.Level, { message: 'Please enter correct level.' }),
+    __metadata("design:type", String)
+], GetAiModelAnswer.prototype, "level", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(chat_gpt_ai_schemas_1.Category, { message: 'Please enter correct category.' }),
+    __metadata("design:type", String)
+], GetAiModelAnswer.prototype, "category", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsOptional)(),

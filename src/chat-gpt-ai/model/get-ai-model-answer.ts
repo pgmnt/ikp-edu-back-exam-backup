@@ -1,11 +1,11 @@
 //get-ai-model-answer.ts
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator"
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator"
+import { Level, Category } from '../schemas/chat-gpt-ai-schemas';
 
 const DEFAULT_MODEL_ID  = "text-davinci-003"
 const DEFAULT_TEMPERATURE = 0.9
 const DEFAULT_MAX_TOKENS = 2048
 
-//test
 export class GetAiModelAnswer{
 
     @IsString()
@@ -19,6 +19,14 @@ export class GetAiModelAnswer{
     @IsString()
     @IsOptional()
     description:string
+
+    @IsNotEmpty()
+    @IsEnum(Level, { message: 'Please enter correct level.' })
+    readonly level: Level;
+  
+    @IsNotEmpty()
+    @IsEnum(Category, { message: 'Please enter correct category.' })
+    readonly category: Category;
 
     @IsNumber()
     @IsOptional()

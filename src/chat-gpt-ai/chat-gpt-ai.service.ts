@@ -92,7 +92,8 @@ export class ChatGptAiService {
   
         if (lectureDetails.length > 0) {
           // Save lecture details to the database
-          const resData = await this.saveGptResponse(input.question, answerText, input.getModelId(), description, requirements, lectureDetails);
+          const resData = await this.saveGptResponse(input.question, answerText, input.getModelId(), description, input.level,
+          input.category, requirements, lectureDetails);
   
           // Log the lecture details
           // this.logger.log('Lecture Details:', resData);
@@ -135,16 +136,15 @@ export class ChatGptAiService {
   
     return lectureDetails;
   }
-  
-  
-  
 
-  async saveGptResponse(question, answer, modelId, description, requirement, lectureDetails) {
+  async saveGptResponse(question, answer, modelId, description, level, category, requirement, lectureDetails) {
     const formattedResponse = new this.ChatGptResponseModel({
       question,
       answer,
       modelId,
       description,
+      level,
+      category,
       requirement,
       lectureDetails: lectureDetails.map((lecture) => ({
         lectureNumber: lecture.lectureNumber,

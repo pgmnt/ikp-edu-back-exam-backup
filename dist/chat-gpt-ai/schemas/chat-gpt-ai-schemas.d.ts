@@ -23,11 +23,21 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
+export declare enum Category {
+    PROGRAMMING = "Programming",
+    GRAPHIC = "Graphic"
+}
+export declare enum Level {
+    LV1 = "Easy",
+    LV2 = "Hard"
+}
 export declare class ChatGptAiResponse {
     question: string;
     answer: string;
     modelId: string;
     description: String;
+    level: Level;
+    category: Category;
     requirement: String;
     lectureDetails: {
         lectureNumber: string;

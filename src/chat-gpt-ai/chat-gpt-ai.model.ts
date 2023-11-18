@@ -8,6 +8,8 @@ export const ChatGptResponseSchema = new mongoose.Schema({
   answer: String,
   modelId: String,
   description: String,
+  level: String,
+  Category: String,
   requirement: String,
   lectureDetails: [
     {
@@ -24,6 +26,8 @@ export interface ChatGptResponseDocument extends mongoose.Document {
   answer: string;
   modelId: string;
   description: String;
+  level: String,
+  Category: String,
   requirement: String;
   lectureDetails: Array<{
     lectureNumber: string;
