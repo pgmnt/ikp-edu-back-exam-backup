@@ -13,6 +13,9 @@ export class QuizResponse {
   modelId: string;
 
   @Prop()
+  course_id: string;
+
+  @Prop()
   lecture_id: string;
 
   @Prop()

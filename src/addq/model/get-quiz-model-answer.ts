@@ -13,6 +13,10 @@ export class GetAiModelQuiz{
 
     @IsString()
     @IsNotEmpty()
+    course_id:string
+
+    @IsString()
+    @IsNotEmpty()
     lecture_id:string
 
     // @IsString()

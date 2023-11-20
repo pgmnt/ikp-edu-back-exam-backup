@@ -27,10 +27,6 @@ export class OutlineController {
 //                 return this.outlineService.DeleteLearningPath(id)
 //     }
 
-    @Post('/add')
-    SaveCourse(@Body('dataCourse') dataCourse:any){
-       return this.outlineService.SaveCourse(dataCourse)
-};
 @Post('/preview')
 getid(@Body('id') id : string){
         return this.outlineService.getid(id)

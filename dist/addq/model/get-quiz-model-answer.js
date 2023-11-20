@@ -41,6 +41,11 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
+], GetAiModelQuiz.prototype, "course_id", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
 ], GetAiModelQuiz.prototype, "lecture_id", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),

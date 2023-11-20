@@ -167,6 +167,28 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
             throw error;
         }
     }
+    async AddLearningPath(courseId, lectureDetails) {
+        try {
+            const findCourseOutline = await this.ChatGptResponseModel.findById(courseId);
+            if (!findCourseOutline) {
+                return { msg: 'Course not found' };
+            }
+            for (const lecture of lectureDetails) {
+                const newLearningPath = {
+                    lectureNumber: lecture.lectureNumber,
+                    lectureTitle: lecture.lectureTitle,
+                    lectureWebsite: lecture.lectureWebsite,
+                };
+                findCourseOutline.lectureDetails.push(newLearningPath);
+            }
+            await findCourseOutline.save();
+            return { msg: 'Lectures added successfully' };
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
 };
 exports.ChatGptAiService = ChatGptAiService;
 exports.ChatGptAiService = ChatGptAiService = ChatGptAiService_1 = __decorate([

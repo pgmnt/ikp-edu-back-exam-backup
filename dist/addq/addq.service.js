@@ -60,7 +60,6 @@ let AddqService = AddqService_1 = class AddqService {
                 temperature: input.getTemperature(),
                 max_tokens: input.getMaxTokens(),
             };
-            console.log('hiiiiiii');
             const response = await this.openAiApi.createCompletion(params);
             console.log('hiii', response);
             this.logger.log('Raw Response from ChatGPT:', response.data.choices[0].text);

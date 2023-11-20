@@ -27,6 +27,7 @@ export declare class QuizResponse {
     question: string;
     answer: string;
     modelId: string;
+    course_id: string;
     lecture_id: string;
     questions: Array<{
         num: number;

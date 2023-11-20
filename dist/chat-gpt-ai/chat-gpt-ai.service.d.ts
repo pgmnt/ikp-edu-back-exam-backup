@@ -52,4 +52,7 @@ export declare class ChatGptAiService {
         msg: string;
     }>;
     deleteLearningPath(courseId: string, lectureId: string): Promise<void>;
+    AddLearningPath(courseId: string, lectureDetails: any[]): Promise<{
+        msg: string;
+    }>;
 }

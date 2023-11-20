@@ -3,9 +3,11 @@
 import * as mongoose from 'mongoose';
 
 export const QuizResponseSchema = new mongoose.Schema({
+  course_id: String,
   lecture_id: String,
   questions: [
     {
+      _id: String,
       num: Number,
       question_text: String,
       options: [
@@ -20,6 +22,7 @@ export const QuizResponseSchema = new mongoose.Schema({
 
 export interface QuizResponseDocument extends mongoose.Document {
   _id: string;
+  course_id: string;
   lecture_id: string;
   questions: Array<{
     num: number;

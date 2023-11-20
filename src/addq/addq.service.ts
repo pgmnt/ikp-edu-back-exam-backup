@@ -75,8 +75,6 @@ export class AddqService {
         temperature: input.getTemperature(),
         max_tokens: input.getMaxTokens(),
       };
-
-      console.log('hiiiiiii')
   
       // const response = await this.openAiApi.createCompletion(params);
       const response = await this.openAiApi.createCompletion(params);

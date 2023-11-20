@@ -19,22 +19,11 @@ let OutlineController = class OutlineController {
     constructor(outlineService) {
         this.outlineService = outlineService;
     }
-    SaveCourse(dataCourse) {
-        return this.outlineService.SaveCourse(dataCourse);
-    }
-    ;
     getid(id) {
         return this.outlineService.getid(id);
     }
 };
 exports.OutlineController = OutlineController;
-__decorate([
-    (0, common_1.Post)('/add'),
-    __param(0, (0, common_1.Body)('dataCourse')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], OutlineController.prototype, "SaveCourse", null);
 __decorate([
     (0, common_1.Post)('/preview'),
     __param(0, (0, common_1.Body)('id')),

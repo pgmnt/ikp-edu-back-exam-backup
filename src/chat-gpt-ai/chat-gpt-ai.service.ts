@@ -203,6 +203,36 @@ export class ChatGptAiService {
     }
   }
 
+  async AddLearningPath(courseId: string, lectureDetails: any[]) {
+    try {
+      // Use courseId directly without wrapping it in an object
+      const findCourseOutline = await this.ChatGptResponseModel.findById(courseId);
+  
+      if (!findCourseOutline) {
+        return { msg: 'Course not found' };
+      }
+  
+      // Assuming lectureDetails is an array of objects with lecture information
+      for (const lecture of lectureDetails) {
+        const newLearningPath = {
+          lectureNumber: lecture.lectureNumber,
+          lectureTitle: lecture.lectureTitle,
+          lectureWebsite: lecture.lectureWebsite,
+        };
+  
+        findCourseOutline.lectureDetails.push(newLearningPath);
+      }
+  
+      await findCourseOutline.save();
+  
+      return { msg: 'Lectures added successfully' };
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+  
+
 }
 
 

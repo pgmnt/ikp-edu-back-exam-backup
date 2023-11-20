@@ -29,6 +29,10 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
+], QuizResponse.prototype, "course_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
 ], QuizResponse.prototype, "lecture_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),

@@ -40,4 +40,10 @@ export declare class ChatGptAiController {
     deleteLearningPath(courseId: string, lectureId: string): Promise<{
         message: string;
     }>;
+    AddLecture(lectureData: {
+        _id: string;
+        lectureDetails: any[];
+    }): Promise<{
+        msg: string;
+    }>;
 }

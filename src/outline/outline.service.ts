@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Outline } from './schemas/outline.schema';
 import { LearningPath } from './schemas/learningPath.schema';
 import { Examination } from 'src/exam/schemas/exam.schema';
@@ -9,8 +9,8 @@ import { Quizmodel } from './schemas/quiz.schemas';
 @Injectable()
 export class OutlineService {
   constructor(
-    @InjectModel('Outline') private OutlineModel: Model<Outline>,
-    @InjectModel('LearningPath') private LearningPathModel: Model<LearningPath>,
+    @InjectModel('Outline') private readonly OutlineModel: Model<any>,
+    @InjectModel('LearningPath') private readonly LearningPathModel: Model<any>,
     @InjectModel('Examination') private ExamModel: Model<Examination>,
     @InjectModel('Quizmodel') private QuizModel: Model<Quizmodel>,
   ) { }
@@ -89,29 +89,35 @@ export class OutlineService {
 
 
 
-  // async AddLearningPath(id: string) {
+  // async AddLearningPath(courseId: string, lectureTitle: string, lectureWebsite: string) {
   //   try {
   //     const newLearningPath = new this.LearningPathModel({
-  //       topic_Name: '',
-  //       lecture_detail: '',
+  //       lectureTitle: lectureTitle,
+  //       lecture_detail: lectureWebsite,
   //       addq: [],
   //     });
 
   //     await newLearningPath.save();
 
-  //     const findLearningPath = await this.OutlineModel.findById(id);
-  //     if (!findLearningPath) {
-  //       return { msg: 'ไม่พบข้อมูล' };
+  //     const findOutline = await this.OutlineModel.findById(courseId);
+  //     if (!findOutline) {
+  //       return { msg: 'Course not found' };
   //     }
 
-  //     findLearningPath.learningPaths.push(newLearningPath);
-  //     await findLearningPath.save();
-  //     return { msg: 'Complete' };
+  //     findOutline.learningPaths.push(newLearningPath);
+  //     await findOutline.save();
+
+  //     return { msg: 'Lecture added successfully' };
   //   } catch (err) {
   //     console.log(err);
   //     throw err;
   //   }
   // }
+
+
+
+  
+  
 
   // async DeleteLearningPath(id: string) {
   //   try {

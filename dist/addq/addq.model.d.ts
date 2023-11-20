@@ -5,9 +5,11 @@ export declare const QuizResponseSchema: mongoose.Schema<any, mongoose.Model<any
             ans?: string;
             isCorrect?: boolean;
         }[];
+        _id?: string;
         num?: number;
         question_text?: string;
     }[];
+    course_id?: string;
     lecture_id?: string;
 }, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
     questions: {
@@ -15,9 +17,11 @@ export declare const QuizResponseSchema: mongoose.Schema<any, mongoose.Model<any
             ans?: string;
             isCorrect?: boolean;
         }[];
+        _id?: string;
         num?: number;
         question_text?: string;
     }[];
+    course_id?: string;
     lecture_id?: string;
 }>> & mongoose.FlatRecord<{
     questions: {
@@ -25,15 +29,18 @@ export declare const QuizResponseSchema: mongoose.Schema<any, mongoose.Model<any
             ans?: string;
             isCorrect?: boolean;
         }[];
+        _id?: string;
         num?: number;
         question_text?: string;
     }[];
+    course_id?: string;
     lecture_id?: string;
 }> & {
     _id: mongoose.Types.ObjectId;
 }>;
 export interface QuizResponseDocument extends mongoose.Document {
     _id: string;
+    course_id: string;
     lecture_id: string;
     questions: Array<{
         num: number;
