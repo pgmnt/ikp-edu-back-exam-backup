@@ -67,10 +67,10 @@ export class AddqService {
   }
   
 
-  async getModelAnswer(input: GetAiModelQuiz) {
+  async getModelAnswer(input: GetAiModelQuiz , num : string) {
     try {
       const params: CreateCompletionRequest = {
-        prompt: `generate 5 quizes, Provide an example of data in JSON format for a lecture with a lecture_id and an array of questions. Each question should have a num, a question_text, and an array of options, where each option has an ans (answer) and an isCorrect flag to indicate if it's the correct answer in the topic of ${input.question}`,
+        prompt: `generate ${num} quizes, Provide an example of data in JSON format for a lecture with a lecture_id and an array of questions. Each question should have a num, a question_text, and an array of options, where each option has an ans (answer) and an isCorrect flag to indicate if it's the correct answer in the topic of ${input.question}`,
         model: input.getModelId(),
         temperature: input.getTemperature(),
         max_tokens: input.getMaxTokens(),
@@ -79,7 +79,6 @@ export class AddqService {
       // const response = await this.openAiApi.createCompletion(params);
       const response = await this.openAiApi.createCompletion(params);
       
-      console.log('hiii', response)
   
       this.logger.log('Raw Response from ChatGPT:', response.data.choices[0].text); // Log the raw response text here
   
@@ -132,30 +131,6 @@ async parseQuizDetails(answerText: string) {
 
   
 
-  // async getDataQuiz() : Promise<Addq[]> { 
-  //       return this.addqModel.find().exec()
-  // }
-
-//   async deleteQuiz(id: string): Promise<object> {
-//     try {
-//       const findIdQuiz = await this.addqModel.findById(id)
-//       if(!findIdQuiz){
-//             return { msg : 'ไม่พบข้อมูล'}
-//       }
-//       await this.addqModel.deleteOne({_id : id})
-//       const findLearningPath = await this.LearningPathModel.findOne({
-//           addq : id
-//       })
-//       findLearningPath.addq = findLearningPath.addq.filter(data => !data.equals(id as any));
-//       await findLearningPath.save()
-//         return {
-//             msg: 'Complete'
-//         };
-//     } catch (err) {
-//         console.log(err);
-//         throw err
-//     }
-// }
 
 
 }

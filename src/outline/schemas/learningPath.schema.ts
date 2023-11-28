@@ -8,9 +8,6 @@ import { Quizmodel } from './quiz.schemas';
 export class LearningPath {
 
     @Prop()
-    _id: string;
-    
-    @Prop()
     lectureNumber: string;
 
     @Prop()

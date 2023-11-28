@@ -9,140 +9,12 @@ import { Quizmodel } from './schemas/quiz.schemas';
 @Injectable()
 export class OutlineService {
   constructor(
-    @InjectModel('Outline') private readonly OutlineModel: Model<any>,
-    @InjectModel('LearningPath') private readonly LearningPathModel: Model<any>,
+    @InjectModel('Outline') private  OutlineModel: Model<Outline>,
+    @InjectModel('LearningPath') private  LearningPathModel: Model<LearningPath>,
     @InjectModel('Examination') private ExamModel: Model<Examination>,
     @InjectModel('Quizmodel') private QuizModel: Model<Quizmodel>,
   ) { }
 
-  // async Create_Outline(): Promise<Outline> {
-  //   try {
-  //     const outlineData = new this.OutlineModel({
-  //       thumbnail: '...',
-  //       courseTitle: '...',
-  //       courseCategory: '...',
-  //       courseDescription: '...',
-  //       requirements: '...',
-  //       learningPaths: [],
-  //     });
-  //     const createdOutline = await outlineData.save();
-  //     for (let i = 0; i < 3; i++) {
-  //       const newLearningPaths = new this.LearningPathModel({
-  //         topic_Name: '',
-  //         lecture_detail: '',
-  //         addq: [],
-  //       });
-  //       await newLearningPaths.save();
-  //       createdOutline.learningPaths.push(newLearningPaths);
-  //     }
-  //     await createdOutline.save();
-  //     return createdOutline;
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
-
-
-
-  // async Get_Outline(id: string) {
-  //   try {
-  //     const outline = await this.OutlineModel.findById(id)
-  //       .populate('learningPaths')
-  //       .exec();
-
-  //     if (!outline) {
-  //       return { msg: 'ไม่พบข้อมูล' };
-  //     }
-  //     return outline;
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
-
-  // async AddLecture(id: string) {
-  //   try {
-  //     const findItem = await this.LearningPathModel.findById(id);
-  //     if (!findItem) {
-  //       return { msg: 'ไม่พบข้อมูล' };
-  //     }
-  //     if (findItem.addq.length >= 1) {
-  //       return findItem;
-  //     }
-  //     for (let i = 0; i < 5; i++) {
-  //       const newAddq = new this.AddqModel({
-  //         question: '',
-  //         choice: [],
-  //         ans: [],
-  //       });
-  //       await newAddq.save();
-  //       findItem.addq.push(newAddq);
-  //     }
-  //     const res = await findItem.save();
-  //     return res;
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
-
-
-
-  // async AddLearningPath(courseId: string, lectureTitle: string, lectureWebsite: string) {
-  //   try {
-  //     const newLearningPath = new this.LearningPathModel({
-  //       lectureTitle: lectureTitle,
-  //       lecture_detail: lectureWebsite,
-  //       addq: [],
-  //     });
-
-  //     await newLearningPath.save();
-
-  //     const findOutline = await this.OutlineModel.findById(courseId);
-  //     if (!findOutline) {
-  //       return { msg: 'Course not found' };
-  //     }
-
-  //     findOutline.learningPaths.push(newLearningPath);
-  //     await findOutline.save();
-
-  //     return { msg: 'Lecture added successfully' };
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
-
-
-
-  
-  
-
-  // async DeleteLearningPath(id: string) {
-  //   try {
-  //     const deletedLearningPath =
-  //       await this.LearningPathModel.findByIdAndRemove(id);
-  //     if (!deletedLearningPath) {
-  //       return { msg: 'ไม่พบข้อมูล' };
-  //     }
-  //     const outlinesWithDeletedPath = await this.OutlineModel.findOne({
-  //       learningPaths: id,
-  //     });
-  //     outlinesWithDeletedPath.learningPaths =
-  //       outlinesWithDeletedPath.learningPaths.filter(
-  //         (item) => !item.equals(id),
-  //       );
-  //     await outlinesWithDeletedPath.save();
-  //     await this.AddqModel.deleteMany({
-  //       _id: { $in: deletedLearningPath.addq },
-  //     });
-  //     return { msg: 'ลบข้อมูลสำเร็จ' };
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
 
   async SaveCourse(dataCourse: any) {
     try {
@@ -164,11 +36,15 @@ export class OutlineService {
         }
       })
 
+
+
       outline['examination'] = exams
       quizList.forEach((data: any, index: number) => {
         outline.lectureDetails[index][`quiz`] = data
 
       })
+      
+     console.log(quizList , '>>>>>>')
 
       try {
         const examDict = { examination: exams }
@@ -177,6 +53,7 @@ export class OutlineService {
           await newExam.save()
           return newExam
         }))
+
 
 
         const lectureDetailsDict = outline.lectureDetails;
@@ -188,12 +65,14 @@ export class OutlineService {
                 lectureTitle : lectureDetail.lectureTitle,
                 lectureWebsite : lectureDetail.lectureWebsite
             });
+
            if(lectureDetail.quiz){
             for (let quizSave of lectureDetail.quiz) {
               const newquiz = new this.QuizModel(quizSave);
         
               // Save the new quiz to the database
               await newquiz.save();
+
         
               // Push the ObjectId of the saved quiz to the newlecture.quiz array
               newlecture.quiz.push(newquiz._id);
@@ -209,7 +88,10 @@ export class OutlineService {
           } else {
             console.error('lectureDetail.quiz is either undefined or an empty array.');
           }
+          
         }
+
+
   
         // Now lecture_child is an array of resolved promises
         
@@ -233,6 +115,8 @@ export class OutlineService {
 
     }
   }
+
+
 
   async getid(id: string) {
     try {

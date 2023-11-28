@@ -8,10 +8,10 @@ export class OutlineController {
 //     Create_Outline(){
 //             return this.outlineService.Create_Outline()
 //     }
-//     @Post('/getoutline')
-//     Get_Outline(@Body('id') id : string){
-//             return this.outlineService.Get_Outline(id)
-//     }
+    @Post('/add')
+    SaveCourse(@Body('dataCourse') dataCourse : string){
+            return this.outlineService.SaveCourse(dataCourse)
+    }
 
 //     @Post('/lecture')
 //     AddLecture(@Body('id') id : string){

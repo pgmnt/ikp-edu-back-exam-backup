@@ -20,7 +20,15 @@ export class AddqController {
     @Body(new ValidationPipe({ transform: true })) data: GetAiModelQuiz,
     ) {
     console.log('getModelAnswer >>', data);
-    return this.appqService.getModelAnswer(data);
+    return this.appqService.getModelAnswer(data , '5');
+    }
+
+
+    @Post('/regen')
+    regenQuiz(@Body(new ValidationPipe({ transform: true })) data: GetAiModelQuiz,){
+      console.log('Title Regen >>', data);
+        return this.appqService.getModelAnswer(data , '1')
+
     }
 
     @Get()

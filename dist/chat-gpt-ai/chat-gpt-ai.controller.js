@@ -24,6 +24,10 @@ let ChatGptAiController = class ChatGptAiController {
         console.log('getModelAnswer >>', data);
         return this.service.getModelAnswer(data);
     }
+    async regenLearningPath(data) {
+        console.log('getModelAnswer >>', data);
+        return this.service.regenLearningPath(data);
+    }
     listModels() {
         return this.service.listModels();
     }
@@ -53,6 +57,13 @@ __decorate([
     __metadata("design:paramtypes", [get_ai_model_answer_1.GetAiModelAnswer]),
     __metadata("design:returntype", Promise)
 ], ChatGptAiController.prototype, "getModelAnswer", null);
+__decorate([
+    (0, common_1.Post)('/regenPath'),
+    __param(0, (0, common_1.Body)(new common_1.ValidationPipe({ transform: true }))),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [get_ai_model_answer_1.GetAiModelAnswer]),
+    __metadata("design:returntype", Promise)
+], ChatGptAiController.prototype, "regenLearningPath", null);
 __decorate([
     (0, common_1.Get)('/model'),
     __metadata("design:type", Function),

@@ -44,6 +44,7 @@ let OutlineService = class OutlineService {
             quizList.forEach((data, index) => {
                 outline.lectureDetails[index][`quiz`] = data;
             });
+            console.log(quizList, '>>>>>>');
             try {
                 const examDict = { examination: exams };
                 const exam_child = await Promise.all(examDict.examination.map(async (data) => {

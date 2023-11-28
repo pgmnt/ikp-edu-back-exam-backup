@@ -55,4 +55,12 @@ export declare class ChatGptAiService {
     AddLearningPath(courseId: string, lectureDetails: any[]): Promise<{
         msg: string;
     }>;
+    split_lecture(answerText: any): {
+        lectureTitle: any;
+        lectureWebsite: any;
+    };
+    regenLearningPath(input: GetAiModelAnswer): Promise<{
+        lectureTitle: any;
+        lectureWebsite: any;
+    }>;
 }

@@ -12,11 +12,11 @@ export class GetAiModelQuiz{
     question:string
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     course_id:string
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     lecture_id:string
 
     // @IsString()
@@ -59,4 +59,5 @@ export class GetAiModelQuiz{
         return this.temperature?this.temperature:DEFAULT_TEMPERATURE
     }
 }
+
 

@@ -52,16 +52,15 @@ let AddqService = AddqService_1 = class AddqService {
             this.logger.error('Error saving to the database: ', error);
         }
     }
-    async getModelAnswer(input) {
+    async getModelAnswer(input, num) {
         try {
             const params = {
-                prompt: `generate 5 quizes, Provide an example of data in JSON format for a lecture with a lecture_id and an array of questions. Each question should have a num, a question_text, and an array of options, where each option has an ans (answer) and an isCorrect flag to indicate if it's the correct answer in the topic of ${input.question}`,
+                prompt: `generate ${num} quizes, Provide an example of data in JSON format for a lecture with a lecture_id and an array of questions. Each question should have a num, a question_text, and an array of options, where each option has an ans (answer) and an isCorrect flag to indicate if it's the correct answer in the topic of ${input.question}`,
                 model: input.getModelId(),
                 temperature: input.getTemperature(),
                 max_tokens: input.getMaxTokens(),
             };
             const response = await this.openAiApi.createCompletion(params);
-            console.log('hiii', response);
             this.logger.log('Raw Response from ChatGPT:', response.data.choices[0].text);
             const { data } = response;
             if (data.choices.length) {

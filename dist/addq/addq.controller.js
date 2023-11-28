@@ -22,7 +22,11 @@ let AddqController = class AddqController {
     }
     async getModelAnswer(data) {
         console.log('getModelAnswer >>', data);
-        return this.appqService.getModelAnswer(data);
+        return this.appqService.getModelAnswer(data, '5');
+    }
+    regenQuiz(data) {
+        console.log('Title Regen >>', data);
+        return this.appqService.getModelAnswer(data, '1');
     }
     getDataQuiz() {
         return this.appqService.getDataQuiz();
@@ -37,6 +41,13 @@ __decorate([
     __metadata("design:paramtypes", [get_quiz_model_answer_1.GetAiModelQuiz]),
     __metadata("design:returntype", Promise)
 ], AddqController.prototype, "getModelAnswer", null);
+__decorate([
+    (0, common_1.Post)('/regen'),
+    __param(0, (0, common_1.Body)(new common_1.ValidationPipe({ transform: true }))),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [get_quiz_model_answer_1.GetAiModelQuiz]),
+    __metadata("design:returntype", void 0)
+], AddqController.prototype, "regenQuiz", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

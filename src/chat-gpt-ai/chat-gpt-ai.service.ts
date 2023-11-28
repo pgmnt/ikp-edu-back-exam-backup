@@ -102,6 +102,7 @@ export class ChatGptAiService {
           this.logger.error('No valid lecture details found in the answer text:', answerText);
         }
       } else {
+        console.log(response.data)
         return response.data;
       }
     } catch (error) {
@@ -231,9 +232,55 @@ export class ChatGptAiService {
       throw err;
     }
   }
+
+    split_lecture(answerText) {
+        console.log(answerText)
+    const lines = answerText.split('\n');
+    let splitData = lines[lines.length-1].split(' - ');
+   
+    let lectureTitle = splitData[0].trim();
+    let website = splitData[1].trim();
+    return { 
+      lectureTitle : lectureTitle,
+      lectureWebsite : website
+    }
+
+
+    
+  }
+
+  async regenLearningPath(input: GetAiModelAnswer){
+      try{
+          const params: CreateCompletionRequest = {
+          prompt: "generate lectureTitle lectureWebsite , lecture provide me the website link that I can learn " + input.question + "In this format lectureTitle : (.*) - lectureWebsite :(https:\/\/\S+)/  ",
+          model: input.getModelId(),
+          temperature: input.getTemperature(),
+          max_tokens: input.getMaxTokens(),
+        };
+        const response = await this.openAiApi.createCompletion(params);
+        const { data } = response;
+        if(data.choices.length){
+          const answerText = data.choices[0].text;
+          const response = this.split_lecture(answerText)
+          return response
+        }else{
+          this.logger.error('err');
+
+        }
+
+      }catch(err){
+        this.logger.error(err);
+      }
+  }
+
+
+
+  
   
 
 }
+
+
 
 
 

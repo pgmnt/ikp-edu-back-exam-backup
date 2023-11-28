@@ -34,7 +34,7 @@ export declare class AddqService {
     saveQuizResponse(lecture_id: string, questions: any[]): Promise<import("mongoose").Document<unknown, {}, QuizResponseDocument> & QuizResponseDocument & Required<{
         _id: string;
     }>>;
-    getModelAnswer(input: GetAiModelQuiz): Promise<import("openai").CreateCompletionResponse | (import("mongoose").Document<unknown, {}, QuizResponseDocument> & QuizResponseDocument & Required<{
+    getModelAnswer(input: GetAiModelQuiz, num: string): Promise<import("openai").CreateCompletionResponse | (import("mongoose").Document<unknown, {}, QuizResponseDocument> & QuizResponseDocument & Required<{
         _id: string;
     }>)>;
     parseQuizDetails(answerText: string): Promise<{

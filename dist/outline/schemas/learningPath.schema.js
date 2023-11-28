@@ -18,10 +18,6 @@ exports.LearningPath = LearningPath;
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], LearningPath.prototype, "_id", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
 ], LearningPath.prototype, "lectureNumber", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
