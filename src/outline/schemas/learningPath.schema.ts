@@ -17,7 +17,7 @@ export class LearningPath {
     lectureWebsite: string;
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizmodel' }] })
-    quiz: mongoose.Types.ObjectId[];
+    quiz: Quizmodel[];
 }
 
 export const LearningPathSchema = SchemaFactory.createForClass(LearningPath);

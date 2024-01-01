@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { enroll } from './enroll.schema';
 
 @Schema({
   timestamps: true,
 })
-export class User extends Document {
+export class User{
   @Prop()
   name: string;
 
@@ -14,8 +15,20 @@ export class User extends Document {
   @Prop()
   password: string;
 
-  @Prop()
+  @Prop({ default: 'user' }) 
   role: string;
+ 
+  @Prop()
+  birth : Date;
+
+  @Prop()
+  gender : string;
+  
+  @Prop()
+  occupation? : string;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'enrollModel' }] })
+  enroll: enroll[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

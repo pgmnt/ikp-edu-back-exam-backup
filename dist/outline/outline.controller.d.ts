@@ -31,7 +31,22 @@ export declare class OutlineController {
         msg: string;
         data: import("mongoose").Types.ObjectId;
     }>;
-    getid(id: string): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/outline.schema").Outline> & import("./schemas/outline.schema").Outline & {
+    Getall_outline(): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/outline.schema").Outline> & import("./schemas/outline.schema").Outline & {
         _id: import("mongoose").Types.ObjectId;
-    }) | ErrorConstructor>;
+    })[]>;
+    EditOutline(id: string): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/outline.schema").Outline> & import("./schemas/outline.schema").Outline & {
+        _id: import("mongoose").Types.ObjectId;
+    }) | {
+        message: string;
+    }>;
+    EditNewOutline(dataCourse: string): Promise<void>;
+    deleteCourse(id: string): Promise<{
+        msg: string;
+    }>;
+    Publish(id: string): Promise<{
+        msg: string;
+    }>;
+    getid(id: string): Promise<ErrorConstructor | (import("mongoose").Document<unknown, {}, import("./schemas/outline.schema").Outline> & import("./schemas/outline.schema").Outline & {
+        _id: import("mongoose").Types.ObjectId;
+    })>;
 }

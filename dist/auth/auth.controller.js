@@ -21,28 +21,42 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    signUp(signUpDto) {
-        return this.authService.signUp(signUpDto);
+    signUp(signUpDto, res) {
+        return this.authService.signUp(signUpDto, res);
     }
-    login(loginDto) {
-        return this.authService.login(loginDto);
+    login(loginDto, req, res) {
+        return this.authService.login(loginDto, req, res);
+    }
+    Edit(edit, id) {
+        return this.authService.Edit(edit, id);
     }
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('/signup'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [signup_dto_1.SignUpDto]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [signup_dto_1.SignUpDto, Object]),
+    __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signUp", null);
 __decorate([
-    (0, common_1.Get)('/login'),
+    (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [login_dto_1.LoginDto]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [login_dto_1.LoginDto, Object, Object]),
+    __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Put)('/edit/:id'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [signup_dto_1.SignUpDto, String]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "Edit", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

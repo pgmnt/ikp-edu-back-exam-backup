@@ -8,9 +8,9 @@ export declare const ChatGptResponseSchema: mongoose.Schema<any, mongoose.Model<
     description?: string;
     level?: string;
     question?: string;
+    requirement?: string;
     answer?: string;
     modelId?: string;
-    requirement?: string;
     Category?: string;
 }, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
     lectureDetails: {
@@ -21,9 +21,9 @@ export declare const ChatGptResponseSchema: mongoose.Schema<any, mongoose.Model<
     description?: string;
     level?: string;
     question?: string;
+    requirement?: string;
     answer?: string;
     modelId?: string;
-    requirement?: string;
     Category?: string;
 }>> & mongoose.FlatRecord<{
     lectureDetails: {
@@ -34,9 +34,9 @@ export declare const ChatGptResponseSchema: mongoose.Schema<any, mongoose.Model<
     description?: string;
     level?: string;
     question?: string;
+    requirement?: string;
     answer?: string;
     modelId?: string;
-    requirement?: string;
     Category?: string;
 }> & {
     _id: mongoose.Types.ObjectId;

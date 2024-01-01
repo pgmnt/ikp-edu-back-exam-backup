@@ -15,86 +15,54 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const mongoose = require("mongoose");
-const course_schema_1 = require("./schemas/course.schema");
+const mongoose_2 = require("mongoose");
 let CourseService = class CourseService {
-    constructor(courseModel) {
-        this.courseModel = courseModel;
+    constructor(UserModel, EnrollModel, OutlineModel) {
+        this.UserModel = UserModel;
+        this.EnrollModel = EnrollModel;
+        this.OutlineModel = OutlineModel;
     }
-    async findAll(query) {
-        const resPerPage = 2;
-        const currentPage = Number(query.page) || 1;
-        const skip = resPerPage * (currentPage - 1);
-        const keyword = query.keyword
-            ? {
-                title: {
-                    $regex: query.keyword,
-                    $options: 'i',
-                },
-            }
-            : {};
-        const courses = await this.courseModel
-            .find(Object.assign({}, keyword))
-            .limit(resPerPage)
-            .skip(skip);
-        return courses;
-    }
-    async create(course, user) {
-        const data = Object.assign(course, { user: user._id });
-        const res = await this.courseModel.create(data);
-        return res;
-    }
-    async findById(id) {
-        const isValidId = mongoose.isValidObjectId(id);
-        if (!isValidId) {
-            throw new common_1.BadRequestException('Please enter correct id.');
-        }
-        const course = await this.courseModel.findById(id);
-        if (!course) {
-            throw new common_1.NotFoundException('Course not found.');
-        }
-        return course;
-    }
-    async updateById(id, course) {
-        return await this.courseModel.findByIdAndUpdate(id, course, {
-            new: true,
-            runValidators: true,
-        });
-    }
-    async deleteById(id) {
-        return await this.courseModel.findByIdAndDelete(id);
-    }
-    async addcoe(dataCourse) {
+    async enroll(id, params) {
         try {
-            const quizList = [];
-            let exams = {};
-            let outline = {};
-            dataCourse.forEach((data) => {
-                const keys = Object.keys(data)[0];
-                if (keys.includes('quiz')) {
-                    quizList.push(JSON.parse(data[keys]));
-                }
-                else if (keys === 'exam') {
-                    exams = JSON.parse(data.exam);
-                }
-                else {
-                    outline = JSON.parse(data.outline);
-                }
+            const findUser = await this.UserModel.findById(id);
+            if (!findUser)
+                return new common_1.NotFoundException(`User with ID not found.`);
+            const findoutline = await this.OutlineModel.findById(params);
+            if (!findoutline)
+                return new common_1.NotFoundException('Not found outline');
+            const new_enroll = await new this.EnrollModel({
+                _id: findoutline._id,
+                name: findoutline.question
             });
-            outline['exam'] = exams;
-            quizList.forEach((data, index) => {
-                outline.lectureDetails[index][`quiz${index + 1}`] = data;
-            });
+            await new_enroll.save();
+            findUser.enroll.push(new_enroll);
+            await findUser.save();
+            return {
+                message: 'Enrollment successful',
+                statusCode: 200
+            };
         }
         catch (err) {
             console.log(err);
+        }
+    }
+    async getmycourse(id) {
+        try {
+            const findmycourse = await this.EnrollModel;
+        }
+        catch (error) {
+            console.log(error);
         }
     }
 };
 exports.CourseService = CourseService;
 exports.CourseService = CourseService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)(course_schema_1.Course.name)),
-    __metadata("design:paramtypes", [mongoose.Model])
+    __param(0, (0, mongoose_1.InjectModel)('User')),
+    __param(1, (0, mongoose_1.InjectModel)('Enroll')),
+    __param(2, (0, mongoose_1.InjectModel)('Outline')),
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        mongoose_2.Model,
+        mongoose_2.Model])
 ], CourseService);
 //# sourceMappingURL=course.service.js.map

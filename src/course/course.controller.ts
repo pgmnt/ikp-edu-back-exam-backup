@@ -23,11 +23,21 @@ import { AuthGuard } from '@nestjs/passport';
 export class CourseController {
   constructor(private courseService: CourseService) {}
 
-  @Get()
-  async getAllCourses(@Query() query: ExpressQuery): Promise<Course[]> {
-    return this.courseService.findAll(query);
+  // @Get()
+  // async getAllCourses(@Query() query: ExpressQuery): Promise<Course[]> {
+  //   return this.courseService.findAll(query);
+  // }
+
+
+  @Put(':id/:params')
+  async enroll(@Param('id') id : string , @Param('params') params : string){
+      return this.courseService.enroll(id,params)
   }
 
+  @Get('my')
+  async getmycourse(@Param('id') id : string){
+      return this.courseService.getmycourse(id)
+  }
   // @Post()
   // @UseGuards(AuthGuard())
   // async createCourse(
@@ -65,10 +75,10 @@ export class CourseController {
   // }
 
 
-@Post('/add')
-SaveCourse(@Body('dataCourse') dataCourse:any){
-  return this.courseService.addcoe(dataCourse)
-};
+// @Post('/add')
+// SaveCourse(@Body('dataCourse') dataCourse:any){
+//   return this.courseService.addcoe(dataCourse)
+// };
    
 }
 

@@ -13,7 +13,6 @@ import { QuizmodelSchema } from './schemas/quiz.schemas';
     MongooseModule.forFeature([{ name: 'LearningPath', schema: LearningPathSchema }]),
     MongooseModule.forFeature([{ name: 'Examination', schema: ExamSchema }]),
     MongooseModule.forFeature([{ name: 'Quizmodel', schema: QuizmodelSchema }]),
-    
   ],
   controllers: [OutlineController],
   providers: [OutlineService]

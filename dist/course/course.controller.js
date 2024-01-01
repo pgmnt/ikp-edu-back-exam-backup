@@ -19,29 +19,29 @@ let CourseController = class CourseController {
     constructor(courseService) {
         this.courseService = courseService;
     }
-    async getAllCourses(query) {
-        return this.courseService.findAll(query);
+    async enroll(id, params) {
+        return this.courseService.enroll(id, params);
     }
-    SaveCourse(dataCourse) {
-        return this.courseService.addcoe(dataCourse);
+    async getmycourse(id) {
+        return this.courseService.getmycourse(id);
     }
-    ;
 };
 exports.CourseController = CourseController;
 __decorate([
-    (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)()),
+    (0, common_1.Put)(':id/:params'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Param)('params')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
-], CourseController.prototype, "getAllCourses", null);
+], CourseController.prototype, "enroll", null);
 __decorate([
-    (0, common_1.Post)('/add'),
-    __param(0, (0, common_1.Body)('dataCourse')),
+    (0, common_1.Get)('my'),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], CourseController.prototype, "SaveCourse", null);
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CourseController.prototype, "getmycourse", null);
 exports.CourseController = CourseController = __decorate([
     (0, common_1.Controller)('api/course'),
     __metadata("design:paramtypes", [course_service_1.CourseService])

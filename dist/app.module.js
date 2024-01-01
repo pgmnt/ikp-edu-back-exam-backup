@@ -18,6 +18,7 @@ const chat_completion_api_module_1 = require("./chat-completion-api/chat-complet
 const chat_gpt_ai_module_1 = require("./chat-gpt-ai/chat-gpt-ai.module");
 const addq_module_1 = require("./addq/addq.module");
 const outline_module_1 = require("./outline/outline.module");
+const user_module_1 = require("./user/user.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -29,11 +30,12 @@ exports.AppModule = AppModule = __decorate([
                 isGlobal: true,
             }),
             mongoose_1.MongooseModule.forRoot(process.env.DB_URI),
-            course_module_1.CourseModule,
             chat_gpt_ai_module_1.ChatGptAiModule,
             auth_module_1.AuthModule,
             addq_module_1.AddqModule,
+            course_module_1.CourseModule,
             outline_module_1.OutlineModule,
+            user_module_1.UserModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
