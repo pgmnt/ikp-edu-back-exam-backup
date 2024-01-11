@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { enroll } from './enroll.schema';
+import { enroll, enrollSchema } from './enroll.schema';
 
 @Schema({
   timestamps: true,
@@ -27,7 +27,7 @@ export class User{
   @Prop()
   occupation? : string;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'enrollModel' }] })
+  @Prop({ type: [enrollSchema] })
   enroll: enroll[];
 }
 

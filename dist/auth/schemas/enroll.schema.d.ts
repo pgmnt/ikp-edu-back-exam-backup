@@ -21,13 +21,15 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
+/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Document, Types } from 'mongoose';
 export declare class enroll {
-    name: string;
+    question: string;
+    IsPass: boolean[];
+    Examination: boolean;
 }
-export declare const enrollSchema: import("mongoose").Schema<enroll, import("mongoose").Model<enroll, any, any, any, Document<unknown, any, enroll> & enroll & {
-    _id: Types.ObjectId;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, enroll, Document<unknown, {}, import("mongoose").FlatRecord<enroll>> & import("mongoose").FlatRecord<enroll> & {
-    _id: Types.ObjectId;
+export declare const enrollSchema: import("mongoose").Schema<enroll, import("mongoose").Model<enroll, any, any, any, import("mongoose").Document<unknown, any, enroll> & enroll & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, enroll, import("mongoose").Document<unknown, {}, import("mongoose").FlatRecord<enroll>> & import("mongoose").FlatRecord<enroll> & {
+    _id: import("mongoose").Types.ObjectId;
 }>;

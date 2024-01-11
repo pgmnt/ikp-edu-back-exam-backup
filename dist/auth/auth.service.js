@@ -45,6 +45,7 @@ let AuthService = class AuthService {
     async login(loginDto, req, res) {
         const { email, password } = loginDto;
         const user = await this.userModel.findOne({ email });
+        console.log(user);
         if (!user) {
             throw new common_1.UnauthorizedException('Invalid email or password');
         }
@@ -59,7 +60,8 @@ let AuthService = class AuthService {
             role: user.role,
             birth: user.birth,
             gender: user.gender,
-            occupation: user.occupation
+            occupation: user.occupation,
+            enroll: user.enroll
         });
         if (!token) {
             throw new common_1.ForbiddenException();

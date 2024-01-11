@@ -15,5 +15,15 @@ export declare class UserService {
         statusCode: number;
         newtoken: string;
     }>;
-    getmycourse(id: string): Promise<void>;
+    getmycourse(id: string): Promise<enroll[]>;
+    IfPass(idUser: string, index: number, idCourse: string): Promise<NotFoundException | ErrorEvent | {
+        message: string;
+        statusCode: number;
+        newToken: string;
+    }>;
+    IfExamPass(idUser: string, idCourse: string): Promise<NotFoundException | ErrorEvent | {
+        message: string;
+        statusCode: number;
+        newToken: string;
+    }>;
 }

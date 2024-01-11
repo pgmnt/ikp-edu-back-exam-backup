@@ -16,5 +16,16 @@ export class UserController {
       return this.UserService.getmycourse(id)
   }
 
+  @Put('IfPass/:idUser/:index/:idCourse')
+  async IfPass(@Param('idUser') idUser : string , @Param('index') index : number , @Param('idCourse') idCourse : string ){
+        return this.UserService.IfPass(idUser,index,idCourse)
+  }
+
+  @Put('IfExamPass/:idUser/:idCourse')
+  async IfExamPass(@Param('idUser') idUser : string , @Param('idCourse') idCourse : string){
+        return this.UserService.IfExamPass(idUser,idCourse)
+  }
+
+
 
 }

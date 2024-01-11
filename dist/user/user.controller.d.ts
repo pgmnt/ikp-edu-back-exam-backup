@@ -7,5 +7,15 @@ export declare class UserController {
         statusCode: number;
         newtoken: string;
     }>;
-    getmycourse(id: string): Promise<void>;
+    getmycourse(id: string): Promise<import("../auth/schemas/enroll.schema").enroll[]>;
+    IfPass(idUser: string, index: number, idCourse: string): Promise<import("@nestjs/common").NotFoundException | ErrorEvent | {
+        message: string;
+        statusCode: number;
+        newToken: string;
+    }>;
+    IfExamPass(idUser: string, idCourse: string): Promise<import("@nestjs/common").NotFoundException | ErrorEvent | {
+        message: string;
+        statusCode: number;
+        newToken: string;
+    }>;
 }

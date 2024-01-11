@@ -5,9 +5,9 @@ export declare const ChatGptResponseSchema: mongoose.Schema<any, mongoose.Model<
         lectureTitle?: string;
         lectureWebsite?: string;
     }[];
+    question?: string;
     description?: string;
     level?: string;
-    question?: string;
     requirement?: string;
     answer?: string;
     modelId?: string;
@@ -18,9 +18,9 @@ export declare const ChatGptResponseSchema: mongoose.Schema<any, mongoose.Model<
         lectureTitle?: string;
         lectureWebsite?: string;
     }[];
+    question?: string;
     description?: string;
     level?: string;
-    question?: string;
     requirement?: string;
     answer?: string;
     modelId?: string;
@@ -31,9 +31,9 @@ export declare const ChatGptResponseSchema: mongoose.Schema<any, mongoose.Model<
         lectureTitle?: string;
         lectureWebsite?: string;
     }[];
+    question?: string;
     description?: string;
     level?: string;
-    question?: string;
     requirement?: string;
     answer?: string;
     modelId?: string;

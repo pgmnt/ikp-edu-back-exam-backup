@@ -40,6 +40,7 @@ export class AuthService {
   async login(loginDto: LoginDto , req : Request , res : Response){
     const { email, password } = loginDto;
     const user = await this.userModel.findOne({ email });
+    console.log(user)
     if (!user) {
       throw new UnauthorizedException('Invalid email or password');
     }
@@ -56,7 +57,8 @@ export class AuthService {
       role : user.role,
       birth : user.birth,
       gender : user.gender,
-      occupation : user.occupation
+      occupation : user.occupation,
+      enroll : user.enroll
     });
 
     if(!token){

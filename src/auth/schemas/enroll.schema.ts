@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import  { Document, Types } from 'mongoose';
 
 @Schema({
     timestamps: true,
@@ -7,7 +6,14 @@ import  { Document, Types } from 'mongoose';
   export class enroll{
    
     @Prop()
-    name: string;
+    question: string;
+
+
+    @Prop()
+    IsPass : boolean[];
+
+    @Prop({default : 'false'})
+    Examination : boolean;
 
    
   }

@@ -37,22 +37,26 @@ let UserService = class UserService {
             const findoutline = await this.OutlineModel.findById(course);
             if (!findoutline)
                 return new common_1.NotFoundException('Not found outline');
-            const new_enroll = await new this.EnrollModel({
-                _id: findoutline._id,
-                name: findoutline.question
+            const new_enroll = new this.EnrollModel({
+                id: findoutline._id,
+                question: findoutline.question,
+                IsPass: findoutline.lectureDetails.map((value) => false),
             });
-            await new_enroll.save();
             findUser.enroll.push(new_enroll);
             await findUser.save();
-            console.log(findUser);
             const newtoken = this.jwtService.sign({
-                id: 'ss',
+                id: findUser._id,
+                name: findUser.name,
+                email: findUser.email,
+                role: findUser.role,
+                gender: findUser.gender,
+                occupation: findUser.occupation,
+                enroll: findUser.enroll
             });
-            console.log(newtoken);
             return {
                 message: 'Enrollment successful',
                 statusCode: 200,
-                newtoken: ''
+                newtoken: newtoken
             };
         }
         catch (err) {
@@ -61,10 +65,65 @@ let UserService = class UserService {
     }
     async getmycourse(id) {
         try {
-            const findmycourse = await this.EnrollModel;
+            const findUser = await this.UserModel.findById(id);
+            return findUser.enroll;
         }
         catch (error) {
             console.log(error);
+        }
+    }
+    async IfPass(idUser, index, idCourse) {
+        try {
+            const res = await this.UserModel.updateOne({ _id: idUser, 'enroll._id': idCourse }, { $set: { [`enroll.$.IsPass.${index}`]: true } });
+            if (!res)
+                return new ErrorEvent("Can't Update ");
+            const User = await this.UserModel.findById(idUser);
+            if (!User)
+                return new common_1.NotFoundException("Not found User");
+            const newToken = this.jwtService.sign({
+                id: User._id,
+                name: User.name,
+                email: User.email,
+                role: User.role,
+                gender: User.gender,
+                occupation: User.occupation,
+                enroll: User.enroll
+            });
+            return {
+                message: 'Update successful',
+                statusCode: 200,
+                newToken: newToken
+            };
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+    async IfExamPass(idUser, idCourse) {
+        try {
+            const res = await this.UserModel.updateOne({ _id: idUser, 'enroll._id': idCourse }, { $set: { [`enroll.$.Examination`]: true } });
+            if (!res)
+                return new ErrorEvent("Can't Update ");
+            const User = await this.UserModel.findById(idUser);
+            if (!User)
+                return new common_1.NotFoundException("Not found User");
+            const newToken = this.jwtService.sign({
+                id: User._id,
+                name: User.name,
+                email: User.email,
+                role: User.role,
+                gender: User.gender,
+                occupation: User.occupation,
+                enroll: User.enroll
+            });
+            return {
+                message: 'Update successful',
+                statusCode: 200,
+                newToken: newToken
+            };
+        }
+        catch (err) {
+            console.log(err);
         }
     }
 };

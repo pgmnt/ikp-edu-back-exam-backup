@@ -60,7 +60,6 @@ export class OutlineService {
         
       } catch (error) {
         console.error(error);
-        // ทำการ handle error ตามที่คุณต้องการ
       }
     }
 

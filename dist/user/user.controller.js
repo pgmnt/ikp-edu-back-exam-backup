@@ -25,6 +25,12 @@ let UserController = class UserController {
     async getmycourse(id) {
         return this.UserService.getmycourse(id);
     }
+    async IfPass(idUser, index, idCourse) {
+        return this.UserService.IfPass(idUser, index, idCourse);
+    }
+    async IfExamPass(idUser, idCourse) {
+        return this.UserService.IfExamPass(idUser, idCourse);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -42,6 +48,23 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getmycourse", null);
+__decorate([
+    (0, common_1.Put)('IfPass/:idUser/:index/:idCourse'),
+    __param(0, (0, common_1.Param)('idUser')),
+    __param(1, (0, common_1.Param)('index')),
+    __param(2, (0, common_1.Param)('idCourse')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "IfPass", null);
+__decorate([
+    (0, common_1.Put)('IfExamPass/:idUser/:idCourse'),
+    __param(0, (0, common_1.Param)('idUser')),
+    __param(1, (0, common_1.Param)('idCourse')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "IfExamPass", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])
