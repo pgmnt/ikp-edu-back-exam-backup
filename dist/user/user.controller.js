@@ -31,6 +31,9 @@ let UserController = class UserController {
     async IfExamPass(idUser, idCourse) {
         return this.UserService.IfExamPass(idUser, idCourse);
     }
+    async getAuthors(name) {
+        return this.UserService.getAuthors(name);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -65,6 +68,13 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "IfExamPass", null);
+__decorate([
+    (0, common_1.Get)('admin/:name'),
+    __param(0, (0, common_1.Param)('name')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getAuthors", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

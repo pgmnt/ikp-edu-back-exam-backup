@@ -24,6 +24,13 @@ export class Outline {
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Examination' }] })
   examination: Examination[];
+
+  @Prop()
+  author : string
+
+  @Prop({default : 0})
+  numberUser :number
+
 }
 
 export const OutlineSchema = SchemaFactory.createForClass(Outline);

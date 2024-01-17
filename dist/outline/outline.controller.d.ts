@@ -27,7 +27,7 @@ import { OutlineService } from './outline.service';
 export declare class OutlineController {
     private outlineService;
     constructor(outlineService: OutlineService);
-    SaveCourse(dataCourse: string): Promise<{
+    SaveCourse(dataCourse: string, name: string): Promise<{
         msg: string;
         data: import("mongoose").Types.ObjectId;
     }>;
@@ -46,7 +46,7 @@ export declare class OutlineController {
     Publish(id: string): Promise<{
         msg: string;
     }>;
-    getid(id: string): Promise<ErrorConstructor | (import("mongoose").Document<unknown, {}, import("./schemas/outline.schema").Outline> & import("./schemas/outline.schema").Outline & {
+    getid(id: string): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/outline.schema").Outline> & import("./schemas/outline.schema").Outline & {
         _id: import("mongoose").Types.ObjectId;
-    })>;
+    }) | ErrorConstructor>;
 }

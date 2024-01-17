@@ -1,9 +1,9 @@
-import { NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { enroll } from 'src/auth/schemas/enroll.schema';
-import { User } from 'src/auth/schemas/user.schema';
-import { Outline } from 'src/outline/schemas/outline.schema';
-import { JwtService } from '@nestjs/jwt';
+import { NotFoundException } from "@nestjs/common";
+import mongoose, { Model, Types } from "mongoose";
+import { enroll } from "src/auth/schemas/enroll.schema";
+import { User } from "src/auth/schemas/user.schema";
+import { Outline } from "src/outline/schemas/outline.schema";
+import { JwtService } from "@nestjs/jwt";
 export declare class UserService {
     private UserModel;
     private EnrollModel;
@@ -26,4 +26,7 @@ export declare class UserService {
         statusCode: number;
         newToken: string;
     }>;
+    getAuthors(getAuthors: string): Promise<NotFoundException | (mongoose.Document<unknown, {}, Outline> & Outline & {
+        _id: Types.ObjectId;
+    })[]>;
 }
