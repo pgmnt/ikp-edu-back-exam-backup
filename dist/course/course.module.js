@@ -9,19 +9,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const auth_module_1 = require("../auth/auth.module");
 const course_controller_1 = require("./course.controller");
 const course_service_1 = require("./course.service");
-const course_schema_1 = require("./schemas/course.schema");
+const enroll_schema_1 = require("../auth/schemas/enroll.schema");
+const user_schema_1 = require("../auth/schemas/user.schema");
+const outline_schema_1 = require("../outline/schemas/outline.schema");
 let CourseModule = class CourseModule {
 };
 exports.CourseModule = CourseModule;
 exports.CourseModule = CourseModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            auth_module_1.AuthModule,
-            mongoose_1.MongooseModule.forFeature([{ name: 'Course', schema: course_schema_1.CourseSchema }]),
-        ],
+        imports: [mongoose_1.MongooseModule.forFeature([
+                { name: 'User', schema: user_schema_1.UserSchema },
+                { name: 'Enroll', schema: enroll_schema_1.enrollSchema },
+                { name: 'Outline', schema: outline_schema_1.OutlineSchema }
+            ])],
         controllers: [course_controller_1.CourseController],
         providers: [course_service_1.CourseService],
     })

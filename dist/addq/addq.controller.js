@@ -22,10 +22,18 @@ let AddqController = class AddqController {
     }
     async getModelAnswer(data) {
         console.log('getModelAnswer >>', data);
-        return this.appqService.getModelAnswer(data);
+        return this.appqService.getModelAnswer(data, '5');
+    }
+    regenQuiz(data) {
+        console.log('Title Regen >>', data);
+        return this.appqService.getModelAnswer(data, '1');
     }
     getDataQuiz() {
         return this.appqService.getDataQuiz();
+    }
+    async getScrapedContent(input) {
+        const result = await this.appqService.getScrapedContent(input.content);
+        return { result };
     }
 };
 exports.AddqController = AddqController;
@@ -38,11 +46,26 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AddqController.prototype, "getModelAnswer", null);
 __decorate([
+    (0, common_1.Post)('/regen'),
+    __param(0, (0, common_1.Body)(new common_1.ValidationPipe({ transform: true }))),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [get_quiz_model_answer_1.GetAiModelQuiz]),
+    __metadata("design:returntype", void 0)
+], AddqController.prototype, "regenQuiz", null);
+__decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AddqController.prototype, "getDataQuiz", null);
+__decorate([
+    (0, common_1.Post)('/scraped'),
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
+    __param(0, (0, common_1.Body)(new common_1.ValidationPipe({ transform: true }))),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AddqController.prototype, "getScrapedContent", null);
 exports.AddqController = AddqController = __decorate([
     (0, common_1.Controller)('addq'),
     __metadata("design:paramtypes", [addq_service_1.AddqService])

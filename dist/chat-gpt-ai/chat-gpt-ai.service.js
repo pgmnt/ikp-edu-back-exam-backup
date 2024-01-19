@@ -35,16 +35,12 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
             const lines = input.split('\n');
             let isParsingDescription = true;
             for (const line of lines) {
-                if (line.includes("Description") && isParsingDescription) {
+                if (line.includes("Description:") && isParsingDescription) {
                     description += line + '\n';
-                    continue;
                 }
-                else if (line.includes("Requirements:")) {
+                else if (line.includes("Requirement:")) {
                     isParsingDescription = false;
-                    if (!isParsingDescription) {
-                        requirements += line + '\n';
-                    }
-                    continue;
+                    requirements += line + '\n';
                 }
             }
             description = description.trim();
@@ -59,8 +55,7 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
     async getModelAnswer(input) {
         try {
             const params = {
-                prompt: "generate course outlines and guide users step by step, Do list the number of lecture, name of lecture and each lecture provide me the website link that I can learn -" + input.question + "In this format Course Outline - Name of the course, Description of the course, Requirements, Lecture number of lecture: name of lecture, description: description, website: website link to be in the form /Lecture (\d+): (.*), Description: (.*), Website: (https:\/\/\S+)/ ",
-                model: input.getModelId(),
+                prompt: "generate course outlines and guide users step by step, Do list the number of lecture, name of lecture and each lecture provide me exactly 2 website links in each lecture that I can learn -" + input.question + "In this format Course Outline - Name of the course, Description: description of the course, Requirement: requirement of the course, Lecture number of lecture: name of lecture, description: description, website1: website1, website2: website2  link to be in the form /Lecture (\d+): (.*), Description: (.*), Website: (https:\/\/\S+)/ ", model: input.getModelId(),
                 temperature: input.getTemperature(),
                 max_tokens: input.getMaxTokens(),
             };
@@ -68,6 +63,7 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
             const { data } = response;
             if (data.choices.length) {
                 const answerText = data.choices[0].text;
+                this.logger.log('Lecture Details:', answerText);
                 const { description, requirements } = await this.extractDescriptionAndRequirements(answerText);
                 const lectureDetails = this.parseLectureDetails(answerText);
                 if (lectureDetails.length > 0) {
@@ -79,6 +75,7 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
                 }
             }
             else {
+                console.log(response.data);
                 return response.data;
             }
         }
@@ -92,16 +89,32 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
         const lines = answerText.split('\n');
         let currentLecture = {};
         for (const line of lines) {
-            const lectureMatch = line.match(/Lecture (\d+): (.*), Description: (.*), Website: (https:\/\/\S+)/);
+            const lectureMatch = line.match(/Lecture (\d+): (.*)/);
             if (lectureMatch) {
-                const [_, lectureNumber, lectureTitle, lectureDescription, lectureWebsite] = lectureMatch;
+                const [_, lectureNumber, lectureTitle] = lectureMatch;
                 currentLecture = {
                     lectureNumber,
                     lectureTitle,
-                    lectureDescription,
-                    lectureWebsite,
+                    lectureDescription: "",
+                    lectureWebsite1: "",
+                    lectureWebsite2: "",
                 };
                 lectureDetails.push(currentLecture);
+            }
+            else if (line.startsWith("Description:")) {
+                currentLecture.lectureDescription = line.replace("Description:", "").trim();
+            }
+            else if (line.startsWith("Website")) {
+                const websiteMatch = line.match(/Website \d+: (https:\/\/\S+)/);
+                if (websiteMatch) {
+                    const [, website] = websiteMatch;
+                    if (!currentLecture.lectureWebsite1) {
+                        currentLecture.lectureWebsite1 = website;
+                    }
+                    else if (!currentLecture.lectureWebsite2) {
+                        currentLecture.lectureWebsite2 = website;
+                    }
+                }
             }
             else if (currentLecture && line.trim() === "") {
                 currentLecture = {};
@@ -121,7 +134,8 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
             lectureDetails: lectureDetails.map((lecture) => ({
                 lectureNumber: lecture.lectureNumber,
                 lectureTitle: lecture.lectureTitle,
-                lectureWebsite: lecture.lectureWebsite,
+                lectureWebsite1: lecture.lectureWebsite1,
+                lectureWebsite2: lecture.lectureWebsite2
             })),
         });
         try {
@@ -177,7 +191,8 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
                 const newLearningPath = {
                     lectureNumber: lecture.lectureNumber,
                     lectureTitle: lecture.lectureTitle,
-                    lectureWebsite: lecture.lectureWebsite,
+                    lectureWebsite1: lecture.lectureWebsite1,
+                    lectureWebsite2: lecture.lectureWebsite2,
                 };
                 findCourseOutline.lectureDetails.push(newLearningPath);
             }
@@ -187,6 +202,40 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
         catch (err) {
             console.log(err);
             throw err;
+        }
+    }
+    split_lecture(answerText) {
+        console.log(answerText);
+        const lines = answerText.split('\n');
+        let splitData = lines[lines.length - 1].split(' - ');
+        let lectureTitle = splitData[0].trim();
+        let website = splitData[1].trim();
+        return {
+            lectureTitle: lectureTitle,
+            lectureWebsite: website
+        };
+    }
+    async regenLearningPath(input) {
+        try {
+            const params = {
+                prompt: "generate lectureTitle lectureWebsite , lecture provide me the website link that I can learn " + input.question + "In this format lectureTitle : (.*) - lectureWebsite :(https:\/\/\S+)/  ",
+                model: input.getModelId(),
+                temperature: input.getTemperature(),
+                max_tokens: input.getMaxTokens(),
+            };
+            const response = await this.openAiApi.createCompletion(params);
+            const { data } = response;
+            if (data.choices.length) {
+                const answerText = data.choices[0].text;
+                const response = this.split_lecture(answerText);
+                return response;
+            }
+            else {
+                this.logger.error('err');
+            }
+        }
+        catch (err) {
+            this.logger.error(err);
         }
     }
 };

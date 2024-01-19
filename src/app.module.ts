@@ -9,6 +9,7 @@ import { ChatCompletionApiModule } from './chat-completion-api/chat-completion-a
 import { ChatGptAiModule } from './chat-gpt-ai/chat-gpt-ai.module';
 import { AddqModule } from './addq/addq.module';
 import { OutlineModule } from './outline/outline.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -17,12 +18,13 @@ import { OutlineModule } from './outline/outline.module';
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.DB_URI),
-    CourseModule,
     ChatGptAiModule,
     AuthModule,
     AddqModule,
     // ExamModule,
+    CourseModule,
     OutlineModule,
+    UserModule,
     
   ],
   controllers: [AppController],

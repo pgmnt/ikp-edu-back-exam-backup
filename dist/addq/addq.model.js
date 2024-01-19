@@ -7,9 +7,8 @@ exports.QuizResponseSchema = new mongoose.Schema({
     lecture_id: String,
     questions: [
         {
-            _id: String,
             num: Number,
-            question_text: String,
+            question: String,
             options: [
                 {
                     ans: String,

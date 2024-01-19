@@ -31,5 +31,13 @@ export declare class AddqController {
     getModelAnswer(data: GetAiModelQuiz): Promise<import("openai").CreateCompletionResponse | (import("mongoose").Document<unknown, {}, import("./addq.model").QuizResponseDocument> & import("./addq.model").QuizResponseDocument & Required<{
         _id: string;
     }>)>;
+    regenQuiz(data: GetAiModelQuiz): Promise<import("openai").CreateCompletionResponse | (import("mongoose").Document<unknown, {}, import("./addq.model").QuizResponseDocument> & import("./addq.model").QuizResponseDocument & Required<{
+        _id: string;
+    }>)>;
     getDataQuiz(): void;
+    getScrapedContent(input: {
+        content: string;
+    }): Promise<{
+        result: string;
+    }>;
 }

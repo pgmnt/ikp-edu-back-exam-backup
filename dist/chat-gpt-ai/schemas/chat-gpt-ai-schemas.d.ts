@@ -41,8 +41,8 @@ export declare class ChatGptAiResponse {
     requirement: String;
     lectureDetails: {
         lectureNumber: string;
-        lectureTitle: string;
-        lectureWebsite: string;
+        lectureWebsite1: String;
+        lectureWebsite2: String;
     }[];
 }
 export declare const ChatSchema: import("mongoose").Schema<ChatGptAiResponse, import("mongoose").Model<ChatGptAiResponse, any, any, any, import("mongoose").Document<unknown, any, ChatGptAiResponse> & ChatGptAiResponse & {

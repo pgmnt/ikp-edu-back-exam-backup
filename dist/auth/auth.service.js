@@ -24,21 +24,28 @@ let AuthService = class AuthService {
         this.userModel = userModel;
         this.jwtService = jwtService;
     }
-    async signUp(signUpDto) {
-        const { name, email, password, role } = signUpDto;
+    async signUp(signUpDto, res) {
+        const { name, email, password, birth, gender, occupation } = signUpDto;
+        const ishaveuser = await this.userModel.findOne({ email: email });
+        if (ishaveuser) {
+            throw new common_1.UnauthorizedException('This email is already in use.');
+        }
+        const birthDate = new Date(birth);
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await this.userModel.create({
             name,
             email,
             password: hashedPassword,
-            role
+            birthDate,
+            gender,
+            occupation
         });
-        const token = this.jwtService.sign({ id: user._id });
-        return { token };
+        return res.status(200).send({ message: 'complete', statusCode: 200 });
     }
-    async login(loginDto) {
+    async login(loginDto, req, res) {
         const { email, password } = loginDto;
         const user = await this.userModel.findOne({ email });
+        console.log(user);
         if (!user) {
             throw new common_1.UnauthorizedException('Invalid email or password');
         }
@@ -46,8 +53,52 @@ let AuthService = class AuthService {
         if (!isPasswordMatched) {
             throw new common_1.UnauthorizedException('Invalid email or password');
         }
-        const token = this.jwtService.sign({ id: user._id });
-        return { token };
+        const token = this.jwtService.sign({
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            birth: user.birth,
+            gender: user.gender,
+            occupation: user.occupation,
+            enroll: user.enroll
+        });
+        if (!token) {
+            throw new common_1.ForbiddenException();
+        }
+        res.status(200).send({ token: token, statusCode: 200 });
+    }
+    async Edit(edit, id) {
+        try {
+            const { email, birth } = edit;
+            const isHaveEmail = await this.userModel.findOne({ email: email });
+            if (isHaveEmail) {
+                throw new common_1.UnauthorizedException('This email is already in use.');
+            }
+            const userIdObject = new mongoose_2.default.Types.ObjectId(id);
+            const birthDate = new Date(birth);
+            const res = await this.userModel.findOneAndUpdate({ _id: userIdObject }, {
+                name: edit.name,
+                email: edit.email,
+                password: edit.password,
+                birth: birthDate,
+                gender: edit.gender,
+                occupation: edit.occupation
+            });
+            const token = this.jwtService.sign({
+                id: res._id,
+                name: res.name,
+                email: res.email,
+                role: res.role,
+                birth: res.birth,
+                gender: res.gender,
+                occupation: res.occupation
+            });
+            return { message: 'complete', statusCode: 200, newtoken: token };
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 };
 exports.AuthService = AuthService;

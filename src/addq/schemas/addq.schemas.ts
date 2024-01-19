@@ -21,12 +21,34 @@ export class QuizResponse {
   @Prop()
   questions: Array<{
     num: number;
-    question_text: string;
-    options: Array<{
-      ans: string;
-      isCorrect: boolean;
+    questions: Array<{
+      question: string;
+      options: Array<{
+        ans: string;
+        isCorrect: boolean;
+      }>;
     }>;
   }>;
 }
+
+
+// @Prop()
+// num: string;
+
+// @Prop([{
+//   question: String,
+//   options: [{
+//     ans: String,
+//     isCorrect: Boolean,
+//   }],
+// }])
+// questions: {
+//   question: string;
+//   options: {
+//     ans: string;
+//     isCorrect: boolean;
+//   }[];
+// }[];
+// }
 
 export const QuizResponseSchema = SchemaFactory.createForClass(QuizResponse);

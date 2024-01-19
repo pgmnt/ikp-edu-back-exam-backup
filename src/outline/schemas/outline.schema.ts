@@ -16,6 +16,9 @@ export class Outline {
   @Prop()
   requirement: string;
 
+  @Prop({ default: false })
+  publish: boolean;
+
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'LearningPath' }] })
   lectureDetails: LearningPath[];
 

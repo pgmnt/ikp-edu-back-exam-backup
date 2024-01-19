@@ -56,7 +56,8 @@ __decorate([
     (0, mongoose_1.Prop)([{
             lectureNumber: String,
             lectureTitle: String,
-            lectureWebsite: String,
+            lectureWebsite1: String,
+            lectureWebsite2: String,
         }]),
     __metadata("design:type", Array)
 ], ChatGptAiResponse.prototype, "lectureDetails", void 0);

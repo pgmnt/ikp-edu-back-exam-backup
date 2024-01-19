@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetAiModelAnswer = void 0;
 const class_validator_1 = require("class-validator");
 const chat_gpt_ai_schemas_1 = require("../schemas/chat-gpt-ai-schemas");
-const DEFAULT_MODEL_ID = "text-davinci-003";
+const DEFAULT_MODEL_ID = "gpt-3.5-turbo-instruct";
 const DEFAULT_TEMPERATURE = 0.9;
 const DEFAULT_MAX_TOKENS = 2048;
 class GetAiModelAnswer {

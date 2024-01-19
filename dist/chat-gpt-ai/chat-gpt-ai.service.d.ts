@@ -40,7 +40,8 @@ export declare class ChatGptAiService {
     parseLectureDetails(answerText: string): {
         lectureNumber: string;
         lectureTitle: string;
-        lectureWebsite: string;
+        lectureWebsite1: string;
+        lectureWebsite2: string;
     }[];
     saveGptResponse(question: any, answer: any, modelId: any, description: any, level: any, category: any, requirement: any, lectureDetails: any): Promise<import("mongoose").Document<unknown, {}, ChatGptResponseDocument> & ChatGptResponseDocument & Required<{
         _id: string;
@@ -54,5 +55,13 @@ export declare class ChatGptAiService {
     deleteLearningPath(courseId: string, lectureId: string): Promise<void>;
     AddLearningPath(courseId: string, lectureDetails: any[]): Promise<{
         msg: string;
+    }>;
+    split_lecture(answerText: any): {
+        lectureTitle: any;
+        lectureWebsite: any;
+    };
+    regenLearningPath(input: GetAiModelAnswer): Promise<{
+        lectureTitle: any;
+        lectureWebsite: any;
     }>;
 }

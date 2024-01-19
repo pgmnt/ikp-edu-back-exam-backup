@@ -2,7 +2,7 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator"
 import { Level, Category } from '../schemas/chat-gpt-ai-schemas';
 
-const DEFAULT_MODEL_ID  = "text-davinci-003"
+const DEFAULT_MODEL_ID  = "gpt-3.5-turbo-instruct"
 const DEFAULT_TEMPERATURE = 0.9
 const DEFAULT_MAX_TOKENS = 2048
 

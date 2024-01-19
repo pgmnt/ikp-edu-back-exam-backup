@@ -31,10 +31,12 @@ export declare class QuizResponse {
     lecture_id: string;
     questions: Array<{
         num: number;
-        question_text: string;
-        options: Array<{
-            ans: string;
-            isCorrect: boolean;
+        questions: Array<{
+            question: string;
+            options: Array<{
+                ans: string;
+                isCorrect: boolean;
+            }>;
         }>;
     }>;
 }

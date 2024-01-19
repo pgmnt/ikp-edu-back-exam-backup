@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Res } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { Outline } from './schemas/outline.schema';
 import { LearningPath } from './schemas/learningPath.schema';
 import { Examination } from 'src/exam/schemas/exam.schema';
@@ -9,140 +9,61 @@ import { Quizmodel } from './schemas/quiz.schemas';
 @Injectable()
 export class OutlineService {
   constructor(
-    @InjectModel('Outline') private readonly OutlineModel: Model<any>,
-    @InjectModel('LearningPath') private readonly LearningPathModel: Model<any>,
+    @InjectModel('Outline') private  OutlineModel: Model<Outline>,
+    @InjectModel('LearningPath') private  LearningPathModel: Model<LearningPath>,
     @InjectModel('Examination') private ExamModel: Model<Examination>,
     @InjectModel('Quizmodel') private QuizModel: Model<Quizmodel>,
   ) { }
 
-  // async Create_Outline(): Promise<Outline> {
-  //   try {
-  //     const outlineData = new this.OutlineModel({
-  //       thumbnail: '...',
-  //       courseTitle: '...',
-  //       courseCategory: '...',
-  //       courseDescription: '...',
-  //       requirements: '...',
-  //       learningPaths: [],
-  //     });
-  //     const createdOutline = await outlineData.save();
-  //     for (let i = 0; i < 3; i++) {
-  //       const newLearningPaths = new this.LearningPathModel({
-  //         topic_Name: '',
-  //         lecture_detail: '',
-  //         addq: [],
-  //       });
-  //       await newLearningPaths.save();
-  //       createdOutline.learningPaths.push(newLearningPaths);
-  //     }
-  //     await createdOutline.save();
-  //     return createdOutline;
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
 
-
-
-  // async Get_Outline(id: string) {
-  //   try {
-  //     const outline = await this.OutlineModel.findById(id)
-  //       .populate('learningPaths')
-  //       .exec();
-
-  //     if (!outline) {
-  //       return { msg: 'ไม่พบข้อมูล' };
-  //     }
-  //     return outline;
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
-
-  // async AddLecture(id: string) {
-  //   try {
-  //     const findItem = await this.LearningPathModel.findById(id);
-  //     if (!findItem) {
-  //       return { msg: 'ไม่พบข้อมูล' };
-  //     }
-  //     if (findItem.addq.length >= 1) {
-  //       return findItem;
-  //     }
-  //     for (let i = 0; i < 5; i++) {
-  //       const newAddq = new this.AddqModel({
-  //         question: '',
-  //         choice: [],
-  //         ans: [],
-  //       });
-  //       await newAddq.save();
-  //       findItem.addq.push(newAddq);
-  //     }
-  //     const res = await findItem.save();
-  //     return res;
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
-
-
-
-  // async AddLearningPath(courseId: string, lectureTitle: string, lectureWebsite: string) {
-  //   try {
-  //     const newLearningPath = new this.LearningPathModel({
-  //       lectureTitle: lectureTitle,
-  //       lecture_detail: lectureWebsite,
-  //       addq: [],
-  //     });
-
-  //     await newLearningPath.save();
-
-  //     const findOutline = await this.OutlineModel.findById(courseId);
-  //     if (!findOutline) {
-  //       return { msg: 'Course not found' };
-  //     }
-
-  //     findOutline.learningPaths.push(newLearningPath);
-  //     await findOutline.save();
-
-  //     return { msg: 'Lecture added successfully' };
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
-
-
-
+    async deleteCourse(outline : any ){
+      try {
+        // 1. หา Outline ที่ต้องการลบ
+        const outlines = await this.OutlineModel.findById(outline).exec();
+        
   
+        // 2. ถ้าไม่พบ Outline, ไม่ต้องทำอะไร
+        if (!outlines) {
+          console.log(`Outline with ID ${outlines} not found.`);  
+          return;
+        }
+        // 3. ลบ Outline
+        await outlines.deleteOne();
+        //  // 8. ลบทุก examination
+         const examinationIdsToDelete = outlines.examination;
+         if (examinationIdsToDelete && examinationIdsToDelete.length > 0) {
+           await this.ExamModel.deleteMany({ _id: { $in: examinationIdsToDelete } }).exec();
+         }
   
+        // 4. ลบ LearningPath (lectureDetails) ทั้งหมด
+        const learningPathIdsToDelete = outlines.lectureDetails.map((learningPath) =>  learningPath);
+  
+        // // 5. ถ้ามี LearningPath ที่ต้องการลบ, ให้ลบทุก LearningPath
+        if (learningPathIdsToDelete && learningPathIdsToDelete.length > 0) {
+          // 6. สำหรับทุก LearningPath, ลบทุก quiz และ examination
+          for (const learningPathId of learningPathIdsToDelete) {
+            const learningPath = await this.LearningPathModel.findById(learningPathId).exec();
+  
+            if (learningPath) {
+              // 7. ลบทุก quiz
+              const quizIdsToDelete = learningPath.quiz;
+              if (quizIdsToDelete && quizIdsToDelete.length > 0) {
+                await this.QuizModel.deleteMany({ _id: { $in: quizIdsToDelete } }).exec();
+              }
+            }
+          }
+          await this.LearningPathModel.deleteMany({ _id: { $in: learningPathIdsToDelete } }).exec();
+        }
+        console.log(`Outline with ID ${outlines._id} and associated LearningPath, quizzes, and examinations deleted successfully.`);
+        const data = { msg: 'complete'};
+        return data
+        
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-  // async DeleteLearningPath(id: string) {
-  //   try {
-  //     const deletedLearningPath =
-  //       await this.LearningPathModel.findByIdAndRemove(id);
-  //     if (!deletedLearningPath) {
-  //       return { msg: 'ไม่พบข้อมูล' };
-  //     }
-  //     const outlinesWithDeletedPath = await this.OutlineModel.findOne({
-  //       learningPaths: id,
-  //     });
-  //     outlinesWithDeletedPath.learningPaths =
-  //       outlinesWithDeletedPath.learningPaths.filter(
-  //         (item) => !item.equals(id),
-  //       );
-  //     await outlinesWithDeletedPath.save();
-  //     await this.AddqModel.deleteMany({
-  //       _id: { $in: deletedLearningPath.addq },
-  //     });
-  //     return { msg: 'ลบข้อมูลสำเร็จ' };
-  //   } catch (err) {
-  //     console.log(err);
-  //     throw err;
-  //   }
-  // }
+
 
   async SaveCourse(dataCourse: any) {
     try {
@@ -156,28 +77,30 @@ export class OutlineService {
           quizList.push(JSON.parse(data[keys]))
         } else if (keys === 'exam') {
           exams = JSON.parse(data.exam)
-          // exams.forEach((exam: any) => {
-          //   exam['_id'] = new mongoose.Types.ObjectId();
-          // })
         } else {
           outline = JSON.parse(data.outline)
         }
       })
 
+
+
       outline['examination'] = exams
       quizList.forEach((data: any, index: number) => {
         outline.lectureDetails[index][`quiz`] = data
-
       })
 
-      try {
-        const examDict = { examination: exams }
+      await this.deleteCourse(outline._id)
+
+        const examDict = { examination : exams }
         const exam_child = await Promise.all(examDict.examination.map(async (data) => {
-          const newExam = new this.ExamModel(data)
+          const newExam = new this.ExamModel({
+              num : data.num,
+              question_text : data.question_text,
+              options : data.options,
+          })
           await newExam.save()
           return newExam
         }))
-
 
         const lectureDetailsDict = outline.lectureDetails;
         let implementLecture = []
@@ -188,15 +111,19 @@ export class OutlineService {
                 lectureTitle : lectureDetail.lectureTitle,
                 lectureWebsite : lectureDetail.lectureWebsite
             });
+
            if(lectureDetail.quiz){
             for (let quizSave of lectureDetail.quiz) {
-              const newquiz = new this.QuizModel(quizSave);
+              const newquiz = new this.QuizModel({
+                    num : quizSave.num,
+                    question_text :quizSave.question_text,
+                    options : quizSave.options
+              });
         
               // Save the new quiz to the database
-              await newquiz.save();
-        
+             const quizchild = await newquiz.save();
               // Push the ObjectId of the saved quiz to the newlecture.quiz array
-              newlecture.quiz.push(newquiz._id);
+              newlecture.quiz.push(quizchild);
             }
           }else{
               console.log('empty')
@@ -209,8 +136,9 @@ export class OutlineService {
           } else {
             console.error('lectureDetail.quiz is either undefined or an empty array.');
           }
+          
         }
-  
+
         // Now lecture_child is an array of resolved promises
         
         const newOutline = new this.OutlineModel({
@@ -220,20 +148,18 @@ export class OutlineService {
           lectureDetails : implementLecture,
           examination : exam_child
         })   
-          console.log(newOutline) 
           await newOutline.save()
         return { msg: 'Complete'  , data : newOutline._id }
 
-
-      } catch (error) {
-        console.log(error)
-      }
+     
     } catch (error) {
       console.log(error)
 
     }
   }
 
+
+//  Get preview
   async getid(id: string) {
     try {
       const findPreview = await this.OutlineModel
@@ -253,7 +179,94 @@ export class OutlineService {
       console.log(err);
     }
   }
-  
+
+    //  Get all outline 
+  async Getall_outline(){
+      try{
+          const getAlloutline = await this.OutlineModel.find()
+          return getAlloutline
+
+      }catch(err){
+          console.log(err)
+      }
+  }
+  // EditOutline
+async EditOutline(id : string){
+    try{
+            const getAlloutline = await this.OutlineModel.findById(id).populate({
+              path: 'lectureDetails',
+              populate: { path: 'quiz', model: 'Quizmodel' },
+            })
+            .populate('examination');
+             if(getAlloutline){
+                console.log(getAlloutline)
+                return getAlloutline
+            }else{
+                return { message : 'Not Found'}
+            }
+    }catch(err){
+        console.log(err)
+    }
+}
+
+
+async EditNewOutline(dataCourse : any){
+      try{
+
+      const quizList: Array<any> = []
+      let exams = []
+      let outline: any = {}
+
+      dataCourse.forEach((data: any) => {
+        const keys: string = Object.keys(data)[0];
+        if (keys.includes('quiz')) {
+          quizList.push(JSON.parse(data[keys]))
+        } else if (keys === 'exam') {
+          exams = JSON.parse(data.exam)
+        } else {
+          outline = JSON.parse(data.outline)
+        }
+      })
+      outline['examination'] = exams
+      quizList.forEach((data: any, index: number) => {
+        outline.lectureDetails[index][`quiz`] = data
+      })
+
+      const outlineObjectId = new Types.ObjectId(outline._id);
+
+      // Delete the main Outline document
+      await this.OutlineModel.deleteOne({ _id: outlineObjectId });
+
+      // Delete related LearningPath documents
+      await this.LearningPathModel.deleteMany({ outline: outlineObjectId });
+
+      // Delete related Exam documents
+      await this.ExamModel.deleteMany({ outline: outlineObjectId });
+      
+        
+      }catch(err){
+          console.log(err)
+      }
+}
+
+async Publish(id : string){
+    try{
+      const findId = await this.OutlineModel.findOneAndUpdate(
+        { _id: id },
+        { publish: true },
+        { new: true, validateBeforeSave: true }
+      );
+      if(!findId){
+          return { msg : 'Not found!'}
+      }
+      return { msg : 'Complete'}
+
+      
+    }catch(err){
+        console.log(err)
+    }
+}
+
   
 }
 

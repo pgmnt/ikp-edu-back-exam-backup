@@ -8,9 +8,6 @@ import { Quizmodel } from './quiz.schemas';
 export class LearningPath {
 
     @Prop()
-    _id: string;
-    
-    @Prop()
     lectureNumber: string;
 
     @Prop()
@@ -20,7 +17,7 @@ export class LearningPath {
     lectureWebsite: string;
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizmodel' }] })
-    quiz: mongoose.Types.ObjectId[];
+    quiz: Quizmodel[];
 }
 
 export const LearningPathSchema = SchemaFactory.createForClass(LearningPath);

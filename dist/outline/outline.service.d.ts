@@ -1,15 +1,34 @@
-import { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
+import { Outline } from './schemas/outline.schema';
+import { LearningPath } from './schemas/learningPath.schema';
 import { Examination } from 'src/exam/schemas/exam.schema';
 import { Quizmodel } from './schemas/quiz.schemas';
 export declare class OutlineService {
-    private readonly OutlineModel;
-    private readonly LearningPathModel;
+    private OutlineModel;
+    private LearningPathModel;
     private ExamModel;
     private QuizModel;
-    constructor(OutlineModel: Model<any>, LearningPathModel: Model<any>, ExamModel: Model<Examination>, QuizModel: Model<Quizmodel>);
+    constructor(OutlineModel: Model<Outline>, LearningPathModel: Model<LearningPath>, ExamModel: Model<Examination>, QuizModel: Model<Quizmodel>);
+    deleteCourse(outline: any): Promise<{
+        msg: string;
+    }>;
     SaveCourse(dataCourse: any): Promise<{
         msg: string;
-        data: any;
+        data: Types.ObjectId;
     }>;
-    getid(id: string): Promise<any>;
+    getid(id: string): Promise<ErrorConstructor | (mongoose.Document<unknown, {}, Outline> & Outline & {
+        _id: Types.ObjectId;
+    })>;
+    Getall_outline(): Promise<(mongoose.Document<unknown, {}, Outline> & Outline & {
+        _id: Types.ObjectId;
+    })[]>;
+    EditOutline(id: string): Promise<(mongoose.Document<unknown, {}, Outline> & Outline & {
+        _id: Types.ObjectId;
+    }) | {
+        message: string;
+    }>;
+    EditNewOutline(dataCourse: any): Promise<void>;
+    Publish(id: string): Promise<{
+        msg: string;
+    }>;
 }

@@ -1,14 +1,16 @@
-import * as mongoose from 'mongoose';
-import { Course } from './schemas/course.schema';
-import { Query } from 'express-serve-static-core';
+import { NotFoundException } from '@nestjs/common';
+import { Model } from 'mongoose';
 import { User } from '../auth/schemas/user.schema';
+import { enroll } from 'src/auth/schemas/enroll.schema';
+import { Outline } from 'src/outline/schemas/outline.schema';
 export declare class CourseService {
-    private courseModel;
-    constructor(courseModel: mongoose.Model<Course>);
-    findAll(query: Query): Promise<Course[]>;
-    create(course: Course, user: User): Promise<Course>;
-    findById(id: string): Promise<Course>;
-    updateById(id: string, course: Course): Promise<Course>;
-    deleteById(id: string): Promise<Course>;
-    addcoe(dataCourse: any): Promise<void>;
+    private UserModel;
+    private EnrollModel;
+    private OutlineModel;
+    constructor(UserModel: Model<User>, EnrollModel: Model<enroll>, OutlineModel: Model<Outline>);
+    enroll(id: string, params: string): Promise<NotFoundException | {
+        message: string;
+        statusCode: number;
+    }>;
+    getmycourse(id: string): Promise<void>;
 }

@@ -5,9 +5,8 @@ export declare const QuizResponseSchema: mongoose.Schema<any, mongoose.Model<any
             ans?: string;
             isCorrect?: boolean;
         }[];
-        _id?: string;
+        question?: string;
         num?: number;
-        question_text?: string;
     }[];
     course_id?: string;
     lecture_id?: string;
@@ -17,9 +16,8 @@ export declare const QuizResponseSchema: mongoose.Schema<any, mongoose.Model<any
             ans?: string;
             isCorrect?: boolean;
         }[];
-        _id?: string;
+        question?: string;
         num?: number;
-        question_text?: string;
     }[];
     course_id?: string;
     lecture_id?: string;
@@ -29,9 +27,8 @@ export declare const QuizResponseSchema: mongoose.Schema<any, mongoose.Model<any
             ans?: string;
             isCorrect?: boolean;
         }[];
-        _id?: string;
+        question?: string;
         num?: number;
-        question_text?: string;
     }[];
     course_id?: string;
     lecture_id?: string;
@@ -43,11 +40,13 @@ export interface QuizResponseDocument extends mongoose.Document {
     course_id: string;
     lecture_id: string;
     questions: Array<{
-        num: number;
-        question_text: string;
+        num: string;
+        question: string;
         options: Array<{
             ans: string;
             isCorrect: boolean;
         }>;
     }>;
+    lectureWebsite1: string;
+    lectureWebsite2: string;
 }
