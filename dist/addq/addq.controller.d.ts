@@ -35,4 +35,9 @@ export declare class AddqController {
         _id: string;
     }>)>;
     getDataQuiz(): void;
+    getScrapedContent(input: {
+        content: string;
+    }): Promise<{
+        result: string;
+    }>;
 }

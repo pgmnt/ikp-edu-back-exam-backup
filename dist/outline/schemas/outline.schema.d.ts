@@ -8,8 +8,6 @@ export declare class Outline {
     publish: boolean;
     lectureDetails: LearningPath[];
     examination: Examination[];
-    author: string;
-    numberUser: number;
 }
 export declare const OutlineSchema: mongoose.Schema<Outline, mongoose.Model<Outline, any, any, any, mongoose.Document<unknown, any, Outline> & Outline & {
     _id: mongoose.Types.ObjectId;

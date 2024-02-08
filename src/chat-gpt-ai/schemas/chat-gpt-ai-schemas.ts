@@ -38,12 +38,13 @@ export class ChatGptAiResponse {
   @Prop([{
     lectureNumber: String,
     lectureTitle: String,
-    lectureWebsite: String,
+    lectureWebsite1: String,
+    lectureWebsite2: String,
   }])
   lectureDetails: {
     lectureNumber: string;
-    lectureTitle: string;
-    lectureWebsite: string;
+    lectureWebsite1: String,
+    lectureWebsite2: String,
   }[];
 }
 

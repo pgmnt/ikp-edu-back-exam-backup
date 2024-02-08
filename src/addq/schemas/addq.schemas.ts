@@ -19,14 +19,16 @@ export class QuizResponse {
   lecture_id: string;
 
   @Prop()
-  questions: Array<{
-    num: number;
-    question_text: string;
-    options: Array<{
-      ans: string;
-      isCorrect: boolean;
+  num: number;
+  
+  @Prop()
+    questions: Array<{
+      question: string;
+      options: Array<{
+        ans: string;
+        isCorrect: boolean;
+      }>;
     }>;
-  }>;
 }
 
 export const QuizResponseSchema = SchemaFactory.createForClass(QuizResponse);

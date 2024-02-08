@@ -36,6 +36,10 @@ __decorate([
 ], QuizResponse.prototype, "lecture_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], QuizResponse.prototype, "num", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", Array)
 ], QuizResponse.prototype, "questions", void 0);
 exports.QuizResponse = QuizResponse = __decorate([

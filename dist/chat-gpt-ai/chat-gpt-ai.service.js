@@ -35,16 +35,12 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
             const lines = input.split('\n');
             let isParsingDescription = true;
             for (const line of lines) {
-                if (line.includes("Description") && isParsingDescription) {
+                if (line.includes("Summary:") || (line.includes("Summary:\n")) && isParsingDescription) {
                     description += line + '\n';
-                    continue;
                 }
-                else if (line.includes("Requirements:")) {
+                else if ((line.includes("Requirement:")) || ((line.includes("Requirements:\n")))) {
                     isParsingDescription = false;
-                    if (!isParsingDescription) {
-                        requirements += line + '\n';
-                    }
-                    continue;
+                    requirements += line + '\n';
                 }
             }
             description = description.trim();
@@ -59,8 +55,7 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
     async getModelAnswer(input) {
         try {
             const params = {
-                prompt: "generate course outlines and guide users step by step, Do list the number of lecture, name of lecture and each lecture provide me the website link that I can learn -" + input.question + "In this format Course Outline - Name of the course, Description of the course, Requirements, Lecture number of lecture: name of lecture, description: description, website: website link to be in the form /Lecture (\d+): (.*), Description: (.*), Website: (https:\/\/\S+)/ ",
-                model: input.getModelId(),
+                prompt: "generate course outlines and guide users step by step, Do list the number of lecture, name of lecture and each lecture provide me exactly 2 website links in each lecture that I can learn - focusing on " + input.question + " within the context of Software Engineering and App Development. Ensure that the lecture provides a challenging and insightful experience for learner - Difficulty: advenced (Keyword: hard, big data, machine learning), In this format Course Outline - Name of the course, Summary: summary of the course no new line, Requirement: requirement of the course no new line, Lecture number of lecture: name of lecture, description: description new line, website1: website1 new line, website2: website2 new line link to be in the form /Lecture (\d+): (.), Description: (.), Website: (https://\S+)/ if no website found in lecture or N/A cut that lecture out", model: input.getModelId(),
                 temperature: input.getTemperature(),
                 max_tokens: input.getMaxTokens(),
             };
@@ -68,6 +63,7 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
             const { data } = response;
             if (data.choices.length) {
                 const answerText = data.choices[0].text;
+                this.logger.log('Lecture Details:', answerText);
                 const { description, requirements } = await this.extractDescriptionAndRequirements(answerText);
                 const lectureDetails = this.parseLectureDetails(answerText);
                 if (lectureDetails.length > 0) {
@@ -93,20 +89,43 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
         const lines = answerText.split('\n');
         let currentLecture = {};
         for (const line of lines) {
-            const lectureMatch = line.match(/Lecture (\d+): (.*), Description: (.*), Website: (https:\/\/\S+)/);
+            const lectureMatch = line.match(/Lecture (\d+): (.*)/);
             if (lectureMatch) {
-                const [_, lectureNumber, lectureTitle, lectureDescription, lectureWebsite] = lectureMatch;
+                const [_, lectureNumber, lectureTitle] = lectureMatch;
                 currentLecture = {
                     lectureNumber,
                     lectureTitle,
-                    lectureDescription,
-                    lectureWebsite,
+                    lectureDescription: "",
+                    lectureWebsite1: "",
+                    lectureWebsite2: "",
                 };
-                lectureDetails.push(currentLecture);
             }
-            else if (currentLecture && line.trim() === "") {
+            else if (currentLecture.lectureNumber && (line.startsWith("Description:")) || (line.startsWith("Description:\n"))) {
+                currentLecture.lectureDescription = line.replace("Description:", "").trim();
+            }
+            else if (currentLecture.lectureNumber && (line.startsWith("Website")) || (line.startsWith("Website\n"))) {
+                const websiteMatch = line.match(/Website \d+: (https:\/\/\S+)/) || line.match(/Website\d+: (https:\/\/\S+)/);
+                if (websiteMatch) {
+                    const [, website] = websiteMatch;
+                    if (!currentLecture.lectureWebsite1) {
+                        currentLecture.lectureWebsite1 = website;
+                    }
+                    else if (!currentLecture.lectureWebsite2) {
+                        currentLecture.lectureWebsite2 = website;
+                    }
+                }
+            }
+            else if (currentLecture.lectureNumber && line.trim() === "") {
+                if (!(currentLecture.lectureWebsite1 === "N/A" || currentLecture.lectureWebsite1 === "" ||
+                    currentLecture.lectureWebsite2 === "N/A" || currentLecture.lectureWebsite2 === "")) {
+                    lectureDetails.push(currentLecture);
+                }
                 currentLecture = {};
             }
+        }
+        if (currentLecture.lectureNumber && !(currentLecture.lectureWebsite1 === "N/A" || currentLecture.lectureWebsite1 === "" ||
+            currentLecture.lectureWebsite2 === "N/A" || currentLecture.lectureWebsite2 === "")) {
+            lectureDetails.push(currentLecture);
         }
         return lectureDetails;
     }
@@ -122,7 +141,8 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
             lectureDetails: lectureDetails.map((lecture) => ({
                 lectureNumber: lecture.lectureNumber,
                 lectureTitle: lecture.lectureTitle,
-                lectureWebsite: lecture.lectureWebsite,
+                lectureWebsite1: lecture.lectureWebsite1,
+                lectureWebsite2: lecture.lectureWebsite2
             })),
         });
         try {
@@ -178,7 +198,8 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
                 const newLearningPath = {
                     lectureNumber: lecture.lectureNumber,
                     lectureTitle: lecture.lectureTitle,
-                    lectureWebsite: lecture.lectureWebsite,
+                    lectureWebsite1: lecture.lectureWebsite1,
+                    lectureWebsite2: lecture.lectureWebsite2,
                 };
                 findCourseOutline.lectureDetails.push(newLearningPath);
             }

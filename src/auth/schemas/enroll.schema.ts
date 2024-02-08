@@ -1,20 +1,22 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema({
-  timestamps: true,
-})
-export class enroll {
-  @Prop()
-  question: string;
+    timestamps: true,
+  })
+  export class enroll{
+   
+    @Prop()
+    question: string;
 
-  @Prop()
-  IsPass: boolean[];
 
-  @Prop({ default: "false" })
-  Examination: boolean;
+    @Prop()
+    IsPass : boolean[];
 
-  @Prop({ default: 0 })
-  numberUser: number;
-}
+    @Prop({default : 'false'})
+    Examination : boolean;
 
-export const enrollSchema = SchemaFactory.createForClass(enroll);
+   
+  }
+  
+  export const enrollSchema = SchemaFactory.createForClass(enroll);
+  

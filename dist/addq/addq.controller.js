@@ -31,6 +31,10 @@ let AddqController = class AddqController {
     getDataQuiz() {
         return this.appqService.getDataQuiz();
     }
+    async getScrapedContent(input) {
+        const result = await this.appqService.getScrapedContent(input.content);
+        return { result };
+    }
 };
 exports.AddqController = AddqController;
 __decorate([
@@ -54,6 +58,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AddqController.prototype, "getDataQuiz", null);
+__decorate([
+    (0, common_1.Post)('/scraped'),
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
+    __param(0, (0, common_1.Body)(new common_1.ValidationPipe({ transform: true }))),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AddqController.prototype, "getScrapedContent", null);
 exports.AddqController = AddqController = __decorate([
     (0, common_1.Controller)('addq'),
     __metadata("design:paramtypes", [addq_service_1.AddqService])

@@ -35,7 +35,7 @@
     "langchain": "^0.0.172",
     "module-name": "^0.0.1-security",
     "mongoose": "^7.6.3",
-    "openai": "^3.3.0",
+    "openai": "^4.26.1",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",

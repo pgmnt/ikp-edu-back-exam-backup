@@ -12,13 +12,13 @@ export declare class OutlineService {
     deleteCourse(outline: any): Promise<{
         msg: string;
     }>;
-    SaveCourse(dataCourse: any, name: string): Promise<{
+    SaveCourse(dataCourse: any): Promise<{
         msg: string;
         data: Types.ObjectId;
     }>;
-    getid(id: string): Promise<(mongoose.Document<unknown, {}, Outline> & Outline & {
+    getid(id: string): Promise<ErrorConstructor | (mongoose.Document<unknown, {}, Outline> & Outline & {
         _id: Types.ObjectId;
-    }) | ErrorConstructor>;
+    })>;
     Getall_outline(): Promise<(mongoose.Document<unknown, {}, Outline> & Outline & {
         _id: Types.ObjectId;
     })[]>;

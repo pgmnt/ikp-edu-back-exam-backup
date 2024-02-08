@@ -26,11 +26,6 @@ export class UserController {
         return this.UserService.IfExamPass(idUser,idCourse)
   }
 
-  @Get('admin/:name')
-  async getAuthors(@Param('name') name : string){
-        return this.UserService.getAuthors(name)
-  }
-  
 
 
 }

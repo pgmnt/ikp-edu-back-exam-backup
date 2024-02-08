@@ -19,8 +19,8 @@ let OutlineController = class OutlineController {
     constructor(outlineService) {
         this.outlineService = outlineService;
     }
-    SaveCourse(dataCourse, name) {
-        return this.outlineService.SaveCourse(dataCourse, name);
+    SaveCourse(dataCourse) {
+        return this.outlineService.SaveCourse(dataCourse);
     }
     Getall_outline() {
         return this.outlineService.Getall_outline();
@@ -43,11 +43,10 @@ let OutlineController = class OutlineController {
 };
 exports.OutlineController = OutlineController;
 __decorate([
-    (0, common_1.Post)('/add/:id'),
+    (0, common_1.Post)('/add'),
     __param(0, (0, common_1.Body)('dataCourse')),
-    __param(1, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], OutlineController.prototype, "SaveCourse", null);
 __decorate([

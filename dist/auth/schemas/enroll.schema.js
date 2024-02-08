@@ -23,13 +23,9 @@ __decorate([
     __metadata("design:type", Array)
 ], enroll.prototype, "IsPass", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: "false" }),
+    (0, mongoose_1.Prop)({ default: 'false' }),
     __metadata("design:type", Boolean)
 ], enroll.prototype, "Examination", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ default: 0 }),
-    __metadata("design:type", Number)
-], enroll.prototype, "numberUser", void 0);
 exports.enroll = enroll = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,

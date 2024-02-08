@@ -30,6 +30,30 @@ export class AddqService {
     this.openAiApi = new OpenAIApi(configuration);
   }
 
+  async saveQuizResponse(lecture_id: string, questions: any[]) {
+    const formattedQuestions = questions.map((question) => ({
+      num: question.num,
+      question_text: question.question_text, // Use 'text' from your JSON data
+      options: question.options.map((option) => ({
+        ans: option.ans,
+        isCorrect: option.isCorrect,
+      })),
+    }));
+  
+    // Create an instance of the QuizResponse schema with the correct structure
+    const formattedResponse = new this.QuizResponseModel({
+      lecture_id,
+      questions: formattedQuestions,
+    });
+  
+    try {
+      const savedResponse = await formattedResponse.save();
+      return savedResponse;
+    } catch (error) {
+      this.logger.error('Error saving to the database: ', error);
+    }
+  }
+
   async getModelAnswer(input: GetAiModelQuiz, num: string) {
     try {
       const course = input.course_id;
@@ -78,18 +102,11 @@ export class AddqService {
         });
       };
 
+      // Wait for the completion of getScrapedContent before proceeding
       const scrapedContent = await getScrapedContent();
 
       const params: CreateCompletionRequest = {
-        prompt: `generate ${num} quizes (don't put number ex 1,2,3,4,5 in front of num:), Do list in string format, questions. Each question should have a num, and an of options, and each option has ans instead of (1,2,3,4 or a,b,c,d) and put answer behind each option with isCorrect flag after the option to indicate if it's the correct answer in the topic of ${scrapedContent} show the result exacly like this start with Num: 1, Question:, Options: and Num: 2, Question:, Options: and go on (example text format like this (
-          num: 1,
-          question: Which planet is known as the Red Planet?,
-          options: 
-            ans: Earth, isCorrect: False,
-            ans: Mars, isCorrect: True,
-            ans: Venus, isCorrect: False,
-            ans: Moon, isCorrect: False,
-          )`,
+        prompt: `generate ${num} quizes, Provide data in this valid JSON, An array of questions. Each question should have a num, a question, and an array of options, where each option has an ans (answer) and an isCorrect flag to indicate if it's the correct answer in the topic of ${scrapedContent}`,
         model: input.getModelId(),
         temperature: input.getTemperature(),
         max_tokens: input.getMaxTokens(),
@@ -102,19 +119,21 @@ export class AddqService {
       const { data } = response;
       if (data.choices.length) {
 
-        // console.log('Received JSON Data:', data.choices[0].text);
+        console.log('Received JSON Data:', data.choices[0].text);
 
         const answerText = data.choices[0].text;
-        // this.logger.log('Received JSON Data:', answerText);
-
+        this.logger.log('Received JSON Data:', answerText);
+  
         const quizDetails = await this.parseQuizDetails(answerText);
         if (quizDetails.length) {
-
-          const resData = await this.saveQuizResponse("1", num, quizDetails);
-          return resData;
-          // } else {
-          //   this.logger.error('Invalid quiz data format in the answer text:', answerText);
-          // }
+          const { lecture_id, questions } = quizDetails[0];
+          
+          if (lecture_id && questions) {
+            const resData = await this.saveQuizResponse(lecture_id, questions);
+            return resData;
+          } else {
+            this.logger.error('Invalid quiz data format in the answer text:', answerText);
+          }
         } else {
           this.logger.error('Invalid quiz details format in the answer text:', answerText);
         }
@@ -127,83 +146,52 @@ export class AddqService {
     }
   }
 
-  async getScrapedContent(htmlContent: string): Promise<string> {
-    try {
-      // console.log('Received HTML content in service:', htmlContent);
-      return htmlContent;
-    } catch (error) {
-      console.error('Error getting scraped content:', error);
-      throw error;
-    }
+async getScrapedContent(htmlContent: string): Promise<string> {
+  try {
+    // console.log('Received HTML content in service:', htmlContent);
+    return htmlContent;
+  } catch (error) {
+    console.error('Error getting scraped content:', error);
+    throw error;
   }
-
-  parseQuizDetails(answerText: string) {
-    this.logger.log("answerText", answerText);
-    const quizDetails: { num: string; question: string; options: Array<{ ans: string; isCorrect: boolean }> }[] = [];
-    let currentQuestion: any = {};
-  
-    const lines = answerText.split('\n');
-  
-    for (const line of lines) {
-      const numMatch = line.match(/Num: (\d+)/);
-      if (numMatch) {
-        const [, num] = numMatch;
-        currentQuestion = {
-          num,
-          question: '',
-          options: [],
-        };
-        quizDetails.push(currentQuestion);
-      } else if (line.startsWith("Question:")) {
-        currentQuestion.question = line.replace("Question:", "").trim();
-      } else if (line.startsWith("Options:")) {
-        for (let i = lines.indexOf(line) + 1; i < lines.length; i++) {
-          const ansMatch = lines[i].match(/ans: (.*), isCorrect: (True|False),/);
-          if (ansMatch) {
-            const [, ans, isCorrect] = ansMatch;
-            currentQuestion.options.push({ ans, isCorrect: isCorrect === 'True' });
-          } else if (lines[i].trim() === "") {
-            break;
-          }
-        }
-      }
-    }
-  
-    this.logger.log("quizDetails", quizDetails);
-    return quizDetails;
-  }
-  
-
-
-  async saveQuizResponse(lecture_id: string, num: string, quizDetails) {
-
-    this.logger.log('quizDetails: ', quizDetails);
-
-    const formattedQuestions = new this.QuizResponseModel({
-      lecture_id,
-      // questions: quizDetails.map((questionGroup) => ({
-      // num: questionGroup.num,
-      num,
-      questions: quizDetails.map((question) => ({
-        question: question.question,
-        options: question.options.map((option) => ({
-          ans: option.ans,
-          isCorrect: option.isCorrect
-        }))
-      })),
-      // })),
-    });
-
-
-    this.logger.log('formattedQuestions', JSON.stringify(formattedQuestions, null, 2));
-
-    try {
-      const savedResponse = await formattedQuestions.save();
-      return savedResponse;
-    } catch (error) {
-      this.logger.error('Error saving to the database: ', error);
-    }
-  }
-
 }
 
+async parseQuizDetails(answerText1: string) {
+  const QuizDetails = [];
+  let currentQuestion: any = {};
+
+  try {
+    const parsedData = JSON.parse(answerText1);
+    const questions = parsedData.questions;
+    this.logger.debug(questions);
+
+    if (Array.isArray(questions)) {
+      questions.forEach((item: any, index: number) => {
+        const num = item.num || (index + 1).toString();
+        const question = item.question || '';
+        const options = item.options || [];
+
+        if (typeof num === 'string' && typeof question === 'string' && Array.isArray(options)) {
+          QuizDetails.push({
+            num,
+            question,
+            options: options.map((option: any) => ({
+              ans: option.ans || '',
+              isCorrect: option.isCorrect || 'False',
+            })),
+          });
+        } else {
+          this.logger.error('Invalid quiz data format in the answer text:', questions);
+        }
+      });
+    } else {
+      this.logger.error('Invalid quiz details format in the answer text:', questions);
+    }
+  } catch (error) {
+    this.logger.error('Error parsing quiz details:', error);
+  }
+
+  return QuizDetails;
+}
+
+}

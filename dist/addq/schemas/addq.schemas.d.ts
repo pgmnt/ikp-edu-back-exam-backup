@@ -29,9 +29,9 @@ export declare class QuizResponse {
     modelId: string;
     course_id: string;
     lecture_id: string;
+    num: number;
     questions: Array<{
-        num: number;
-        question_text: string;
+        question: string;
         options: Array<{
             ans: string;
             isCorrect: boolean;

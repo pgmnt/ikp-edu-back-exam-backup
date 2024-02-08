@@ -65,7 +65,7 @@ export class OutlineService {
 
 
 
-  async SaveCourse(dataCourse: any , name:string) {
+  async SaveCourse(dataCourse: any) {
     try {
       const quizList: Array<any> = []
       let exams = []
@@ -146,8 +146,7 @@ export class OutlineService {
           description : outline.description,
           requirement  :outline.requirement,
           lectureDetails : implementLecture,
-          examination : exam_child,
-          author : name
+          examination : exam_child
         })   
           await newOutline.save()
         return { msg: 'Complete'  , data : newOutline._id }
@@ -184,7 +183,7 @@ export class OutlineService {
     //  Get all outline 
   async Getall_outline(){
       try{
-          const getAlloutline = await this.OutlineModel.find({ publish : true})
+          const getAlloutline = await this.OutlineModel.find()
           return getAlloutline
 
       }catch(err){

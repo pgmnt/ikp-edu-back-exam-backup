@@ -27,24 +27,20 @@ let UserService = class UserService {
     async enroll(user, course) {
         try {
             const findUser = await this.UserModel.findById(user);
-            const userobject = new mongoose_2.default.Types.ObjectId(user);
             const objectcourse = new mongoose_2.default.Types.ObjectId(course);
             if (!findUser)
                 return new common_1.NotFoundException(`User with ID not found.`);
             const isEnrolled = findUser.enroll.some((val) => val._id.equals(objectcourse));
             if (isEnrolled) {
-                throw new common_1.HttpException("User is already enrolled in this course", common_1.HttpStatus.BAD_REQUEST);
+                throw new common_1.HttpException('User is already enrolled in this course', common_1.HttpStatus.BAD_REQUEST);
             }
             const findoutline = await this.OutlineModel.findById(course);
             if (!findoutline)
-                return new common_1.NotFoundException("Not found outline");
-            findoutline.numberUser = findoutline.numberUser + 1;
-            await findoutline.save();
+                return new common_1.NotFoundException('Not found outline');
             const new_enroll = new this.EnrollModel({
                 id: findoutline._id,
                 question: findoutline.question,
                 IsPass: findoutline.lectureDetails.map((value) => false),
-                numberUser: findoutline.numberUser
             });
             findUser.enroll.push(new_enroll);
             await findUser.save();
@@ -55,12 +51,12 @@ let UserService = class UserService {
                 role: findUser.role,
                 gender: findUser.gender,
                 occupation: findUser.occupation,
-                enroll: findUser.enroll,
+                enroll: findUser.enroll
             });
             return {
-                message: "Enrollment successful",
+                message: 'Enrollment successful',
                 statusCode: 200,
-                newtoken: newtoken,
+                newtoken: newtoken
             };
         }
         catch (err) {
@@ -78,7 +74,7 @@ let UserService = class UserService {
     }
     async IfPass(idUser, index, idCourse) {
         try {
-            const res = await this.UserModel.updateOne({ _id: idUser, "enroll._id": idCourse }, { $set: { [`enroll.$.IsPass.${index}`]: true } });
+            const res = await this.UserModel.updateOne({ _id: idUser, 'enroll._id': idCourse }, { $set: { [`enroll.$.IsPass.${index}`]: true } });
             if (!res)
                 return new ErrorEvent("Can't Update ");
             const User = await this.UserModel.findById(idUser);
@@ -91,12 +87,12 @@ let UserService = class UserService {
                 role: User.role,
                 gender: User.gender,
                 occupation: User.occupation,
-                enroll: User.enroll,
+                enroll: User.enroll
             });
             return {
-                message: "Update successful",
+                message: 'Update successful',
                 statusCode: 200,
-                newToken: newToken,
+                newToken: newToken
             };
         }
         catch (error) {
@@ -105,7 +101,7 @@ let UserService = class UserService {
     }
     async IfExamPass(idUser, idCourse) {
         try {
-            const res = await this.UserModel.updateOne({ _id: idUser, "enroll._id": idCourse }, { $set: { [`enroll.$.Examination`]: true } });
+            const res = await this.UserModel.updateOne({ _id: idUser, 'enroll._id': idCourse }, { $set: { [`enroll.$.Examination`]: true } });
             if (!res)
                 return new ErrorEvent("Can't Update ");
             const User = await this.UserModel.findById(idUser);
@@ -118,24 +114,13 @@ let UserService = class UserService {
                 role: User.role,
                 gender: User.gender,
                 occupation: User.occupation,
-                enroll: User.enroll,
+                enroll: User.enroll
             });
             return {
-                message: "Update successful",
+                message: 'Update successful',
                 statusCode: 200,
-                newToken: newToken,
+                newToken: newToken
             };
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
-    async getAuthors(getAuthors) {
-        try {
-            const findUser = await this.OutlineModel.find({ author: getAuthors });
-            if (!findUser)
-                return new common_1.NotFoundException("Not found User");
-            return findUser;
         }
         catch (err) {
             console.log(err);
@@ -145,9 +130,9 @@ let UserService = class UserService {
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)("User")),
-    __param(1, (0, mongoose_1.InjectModel)("Enroll")),
-    __param(2, (0, mongoose_1.InjectModel)("Outline")),
+    __param(0, (0, mongoose_1.InjectModel)('User')),
+    __param(1, (0, mongoose_1.InjectModel)('Enroll')),
+    __param(2, (0, mongoose_1.InjectModel)('Outline')),
     __metadata("design:paramtypes", [mongoose_2.Model,
         mongoose_2.Model,
         mongoose_2.Model,

@@ -27,7 +27,6 @@ export declare class enroll {
     question: string;
     IsPass: boolean[];
     Examination: boolean;
-    numberUser: number;
 }
 export declare const enrollSchema: import("mongoose").Schema<enroll, import("mongoose").Model<enroll, any, any, any, import("mongoose").Document<unknown, any, enroll> & enroll & {
     _id: import("mongoose").Types.ObjectId;

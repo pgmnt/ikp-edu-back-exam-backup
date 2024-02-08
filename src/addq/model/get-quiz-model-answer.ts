@@ -1,15 +1,15 @@
 //get-quiz-model-answer.ts
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator"
 
-const DEFAULT_MODEL_ID  = "text-davinci-003"
+const DEFAULT_MODEL_ID  = "gpt-3.5-turbo-instruct"
 const DEFAULT_TEMPERATURE = 0.9
 const DEFAULT_MAX_TOKENS = 2048
 
 export class GetAiModelQuiz{
 
-    @IsString()
-    @IsNotEmpty()
-    question:string
+    // @IsString()
+    // @IsNotEmpty()
+    // question:string
 
     @IsString()
     @IsOptional()
@@ -38,6 +38,14 @@ export class GetAiModelQuiz{
     @IsNumber()
     @IsOptional()
     maxTokens:number
+
+    // @IsString()
+    // @IsNotEmpty()
+    // lectureWebsite1 : string
+
+    // @IsString()
+    // @IsNotEmpty()
+    // lectureWebsite2 : string
 
     private cleanModelId(modelId:string){
         if(modelId.includes(":")){

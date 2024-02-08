@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetAiModelQuiz = void 0;
 const class_validator_1 = require("class-validator");
-const DEFAULT_MODEL_ID = "text-davinci-003";
+const DEFAULT_MODEL_ID = "gpt-3.5-turbo-instruct";
 const DEFAULT_TEMPERATURE = 0.9;
 const DEFAULT_MAX_TOKENS = 2048;
 class GetAiModelQuiz {
@@ -32,11 +32,6 @@ class GetAiModelQuiz {
     }
 }
 exports.GetAiModelQuiz = GetAiModelQuiz;
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], GetAiModelQuiz.prototype, "question", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
