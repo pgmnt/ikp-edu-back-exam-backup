@@ -38,14 +38,6 @@ export class ChatGptAiController {
     return this.service.regenLearningPath(data);
   }
 
-  // @Post('/quiz')
-  // @UsePipes(ValidationPipe)
-  // async getModelAnswer(
-  //   @Body(new ValidationPipe({ transform: true })) data: GetAiModelAnswer,
-  // ) {
-  //   console.log('getModelAnswer >>', data);
-  //   return this.service.getModelAnswer(data);
-  // }
 
   @Get('/model')
   listModels() {

@@ -56,7 +56,7 @@ let OutlineService = class OutlineService {
             console.error(error);
         }
     }
-    async SaveCourse(dataCourse) {
+    async SaveCourse(dataCourse, name) {
         try {
             const quizList = [];
             let exams = [];
@@ -123,7 +123,8 @@ let OutlineService = class OutlineService {
                 description: outline.description,
                 requirement: outline.requirement,
                 lectureDetails: implementLecture,
-                examination: exam_child
+                examination: exam_child,
+                author: name
             });
             await newOutline.save();
             return { msg: 'Complete', data: newOutline._id };

@@ -1,60 +1,55 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res } from '@nestjs/common';
-import { OutlineService } from './outline.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  Res,
+} from "@nestjs/common";
+import { OutlineService } from "./outline.service";
 
-@Controller('outline')
+@Controller("outline")
 export class OutlineController {
-    constructor( private  outlineService: OutlineService) {}
-    
-    @Post('/add')
-    SaveCourse(@Body('dataCourse') dataCourse : string){
-            return this.outlineService.SaveCourse(dataCourse)
-    }
+  constructor(private outlineService: OutlineService) {}
 
-    @Get('')
-    Getall_outline(){
-            return this.outlineService.Getall_outline()      
-    }
+  @Post("/add/:id")
+  SaveCourse(
+    @Body("dataCourse") dataCourse: string,
+    @Param("id") name: string
+  ) {
+    return this.outlineService.SaveCourse(dataCourse, name);
+  }
 
-    @Post('/get')
-    EditOutline(@Body('id') id : string){
-                return this.outlineService.EditOutline(id)
-    }
+  @Get("")
+  Getall_outline() {
+    return this.outlineService.Getall_outline();
+  }
 
-    @Post('/edit')
-    EditNewOutline(@Body('dataCourse') dataCourse : string ){
-                return this.outlineService.EditNewOutline(dataCourse)
+  @Post("/get")
+  EditOutline(@Body("id") id: string) {
+    return this.outlineService.EditOutline(id);
+  }
 
-    }
+  @Post("/edit")
+  EditNewOutline(@Body("dataCourse") dataCourse: string) {
+    return this.outlineService.EditNewOutline(dataCourse);
+  }
 
-    @Delete('/:id')
-    deleteCourse(@Param('id') id  : string){     
-        return this.outlineService.deleteCourse(id)
-    }
+  @Delete("/:id")
+  deleteCourse(@Param("id") id: string) {
+    return this.outlineService.deleteCourse(id);
+  }
 
-    @Put('/publish/:id')
-    Publish(@Param('id') id : string){
-                return this.outlineService.Publish(id)
-    }
+  @Put("/publish/:id")
+  Publish(@Param("id") id: string) {
+    return this.outlineService.Publish(id);
+  }
 
-    
-              
-
-            
-    
-
-    
-
-//     @Post('/learningP')
-//     AddLearningPath(@Body('id') id : string){
-//                 return this.outlineService.AddLearningPath(id)
-//     }
-//     @Delete('/learningP')
-//     DeleteLearningPath(@Body('id') id : string){
-//                 return this.outlineService.DeleteLearningPath(id)
-//     }
-
-@Post('/preview')
-getid(@Body('id') id : string){
-        return this.outlineService.getid(id)
-}
+  @Post("/preview")
+  getid(@Body("id") id: string) {
+    return this.outlineService.getid(id);
+  }
 }

@@ -23,11 +23,11 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { OutlineService } from './outline.service';
+import { OutlineService } from "./outline.service";
 export declare class OutlineController {
     private outlineService;
     constructor(outlineService: OutlineService);
-    SaveCourse(dataCourse: string): Promise<{
+    SaveCourse(dataCourse: string, name: string): Promise<{
         msg: string;
         data: import("mongoose").Types.ObjectId;
     }>;

@@ -16,6 +16,10 @@ export class Outline {
   @Prop()
   requirement: string;
 
+
+  @Prop()
+  author: string;
+
   @Prop({ default: false })
   publish: boolean;
 
@@ -24,6 +28,12 @@ export class Outline {
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Examination' }] })
   examination: Examination[];
+
+  @Prop({default : 0})
+  numberUser :number
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId }] })
+  WhoEnroll: mongoose.Schema.Types.ObjectId[];
 }
 
 export const OutlineSchema = SchemaFactory.createForClass(Outline);

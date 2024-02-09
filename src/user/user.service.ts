@@ -33,11 +33,15 @@ export class UserService {
 
            const findoutline = await this.OutlineModel.findById(course)
            if(!findoutline) return new NotFoundException('Not found outline')
-           
+           findoutline.WhoEnroll.push(findUser._id as any)
+           findoutline.numberUser = findoutline.numberUser + 1;
+
+           await findoutline.save();
            const new_enroll = new this.EnrollModel({
                id : findoutline._id,
                question : findoutline.question,
                IsPass : findoutline.lectureDetails.map((value)=> false),
+               numberUser : findoutline.numberUser
            })
            findUser.enroll.push(new_enroll)
            await findUser.save()
@@ -131,6 +135,42 @@ async IfExamPass(idUser : string,idCourse : string){
     }
 }
 
+async getAuthors(getAuthors: string) {
+    try {
+      const findUser = await this.OutlineModel.find({ author: getAuthors });
+      if (!findUser) return new NotFoundException("Not found User");
+      return findUser;
+    } catch (err) {
+      console.log(err);
+      return new NotFoundException("Not found User");
+    }
+  }
+
+  
+async getClassOwn(name : string , role : string){
+    try{
+      const findClassLength = await this.OutlineModel.find({ author : name})
+      if (!findClassLength) return new NotFoundException("Not found User");
+      const findClassPublish = await this.OutlineModel.find({ author : name , publish : false})
+      if (!findClassPublish) return new NotFoundException("Not found User");
+      return { 
+        CourseCreated :  findClassLength.length,
+        CoursePublished : findClassLength.length -findClassPublish.length,
+        CourseNotPublished : findClassPublish.length
+      }
+
+    }catch(err){
+      console.log(err);
+      return new NotFoundException("Not found User");
+
+
+    }
+
+}
+
+async test(){
+
+}
 
 
 }

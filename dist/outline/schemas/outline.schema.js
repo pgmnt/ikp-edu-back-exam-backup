@@ -28,6 +28,10 @@ __decorate([
     __metadata("design:type", String)
 ], Outline.prototype, "requirement", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Outline.prototype, "author", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ default: false }),
     __metadata("design:type", Boolean)
 ], Outline.prototype, "publish", void 0);
@@ -39,6 +43,14 @@ __decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Examination' }] }),
     __metadata("design:type", Array)
 ], Outline.prototype, "examination", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: 0 }),
+    __metadata("design:type", Number)
+], Outline.prototype, "numberUser", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId }] }),
+    __metadata("design:type", Array)
+], Outline.prototype, "WhoEnroll", void 0);
 exports.Outline = Outline = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,

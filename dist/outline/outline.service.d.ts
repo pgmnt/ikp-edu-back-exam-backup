@@ -12,7 +12,7 @@ export declare class OutlineService {
     deleteCourse(outline: any): Promise<{
         msg: string;
     }>;
-    SaveCourse(dataCourse: any): Promise<{
+    SaveCourse(dataCourse: any, name: string): Promise<{
         msg: string;
         data: Types.ObjectId;
     }>;

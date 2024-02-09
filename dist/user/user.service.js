@@ -37,10 +37,14 @@ let UserService = class UserService {
             const findoutline = await this.OutlineModel.findById(course);
             if (!findoutline)
                 return new common_1.NotFoundException('Not found outline');
+            findoutline.WhoEnroll.push(findUser._id);
+            findoutline.numberUser = findoutline.numberUser + 1;
+            await findoutline.save();
             const new_enroll = new this.EnrollModel({
                 id: findoutline._id,
                 question: findoutline.question,
                 IsPass: findoutline.lectureDetails.map((value) => false),
+                numberUser: findoutline.numberUser
             });
             findUser.enroll.push(new_enroll);
             await findUser.save();
@@ -125,6 +129,39 @@ let UserService = class UserService {
         catch (err) {
             console.log(err);
         }
+    }
+    async getAuthors(getAuthors) {
+        try {
+            const findUser = await this.OutlineModel.find({ author: getAuthors });
+            if (!findUser)
+                return new common_1.NotFoundException("Not found User");
+            return findUser;
+        }
+        catch (err) {
+            console.log(err);
+            return new common_1.NotFoundException("Not found User");
+        }
+    }
+    async getClassOwn(name, role) {
+        try {
+            const findClassLength = await this.OutlineModel.find({ author: name });
+            if (!findClassLength)
+                return new common_1.NotFoundException("Not found User");
+            const findClassPublish = await this.OutlineModel.find({ author: name, publish: false });
+            if (!findClassPublish)
+                return new common_1.NotFoundException("Not found User");
+            return {
+                CourseCreated: findClassLength.length,
+                CoursePublished: findClassLength.length - findClassPublish.length,
+                CourseNotPublished: findClassPublish.length
+            };
+        }
+        catch (err) {
+            console.log(err);
+            return new common_1.NotFoundException("Not found User");
+        }
+    }
+    async test() {
     }
 };
 exports.UserService = UserService;

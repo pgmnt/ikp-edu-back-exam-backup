@@ -55,6 +55,7 @@ export class OutlineService {
           await this.LearningPathModel.deleteMany({ _id: { $in: learningPathIdsToDelete } }).exec();
         }
         console.log(`Outline with ID ${outlines._id} and associated LearningPath, quizzes, and examinations deleted successfully.`);
+        
         const data = { msg: 'complete'};
         return data
         
@@ -65,7 +66,7 @@ export class OutlineService {
 
 
 
-  async SaveCourse(dataCourse: any) {
+  async SaveCourse(dataCourse: any,name : string) {
     try {
       const quizList: Array<any> = []
       let exams = []
@@ -146,7 +147,8 @@ export class OutlineService {
           description : outline.description,
           requirement  :outline.requirement,
           lectureDetails : implementLecture,
-          examination : exam_child
+          examination : exam_child,
+          author : name
         })   
           await newOutline.save()
         return { msg: 'Complete'  , data : newOutline._id }

@@ -26,6 +26,17 @@ export class UserController {
         return this.UserService.IfExamPass(idUser,idCourse)
   }
 
+  @Get('admin/:name')
+  async getAuthors(@Param('name') name : string){
+        return this.UserService.getAuthors(name)
+  }
+
+  @Get('getClass/:name/:role')
+  async getClassOwn(@Param('name') name : string , @Param('role') role  : string){
+            return this.UserService.getClassOwn(name , role)
+  }
+
+
 
 
 }

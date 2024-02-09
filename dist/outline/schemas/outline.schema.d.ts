@@ -5,9 +5,12 @@ export declare class Outline {
     question: string;
     description: string;
     requirement: string;
+    author: string;
     publish: boolean;
     lectureDetails: LearningPath[];
     examination: Examination[];
+    numberUser: number;
+    WhoEnroll: mongoose.Schema.Types.ObjectId[];
 }
 export declare const OutlineSchema: mongoose.Schema<Outline, mongoose.Model<Outline, any, any, any, mongoose.Document<unknown, any, Outline> & Outline & {
     _id: mongoose.Types.ObjectId;
