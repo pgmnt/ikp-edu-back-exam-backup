@@ -5,6 +5,8 @@ export declare class GetAiModelAnswer {
     description: string;
     readonly level: Level;
     readonly category: Category;
+    readonly sub1: string;
+    readonly sub2: string;
     temperature: number;
     maxTokens: number;
     private cleanModelId;

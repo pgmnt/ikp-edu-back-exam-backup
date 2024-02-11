@@ -2,13 +2,14 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
 export enum Category {
-  PROGRAMMING = 'Programming',
+  PROGRAMMING = 'IT',
   GRAPHIC = 'Graphic',
 }
 
 export enum Level {
-  LV1 = 'Easy',
-  LV2 = 'Hard',
+  LV1 = 'Beginner',
+  LV2 = 'Intermediate',
+  LV3 = 'Advanced'
 }
 
 @Schema()
@@ -40,11 +41,13 @@ export class ChatGptAiResponse {
     lectureTitle: String,
     lectureWebsite1: String,
     lectureWebsite2: String,
+    lectureDescription: String
   }])
   lectureDetails: {
-    lectureNumber: string;
+    lectureNumber: String;
     lectureWebsite1: String,
     lectureWebsite2: String,
+    lectureDescription: String;
   }[];
 }
 

@@ -43,10 +43,6 @@ let ChatGptAiController = class ChatGptAiController {
             throw new common_1.NotFoundException('Learning path or lecture not found');
         }
     }
-    async AddLecture(lectureData) {
-        const { _id, lectureDetails } = lectureData;
-        return this.service.AddLearningPath(_id, lectureDetails);
-    }
 };
 exports.ChatGptAiController = ChatGptAiController;
 __decorate([
@@ -85,13 +81,6 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ChatGptAiController.prototype, "deleteLearningPath", null);
-__decorate([
-    (0, common_1.Post)('/add-lecture'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], ChatGptAiController.prototype, "AddLecture", null);
 exports.ChatGptAiController = ChatGptAiController = __decorate([
     (0, common_1.Controller)('api'),
     __metadata("design:paramtypes", [chat_gpt_ai_service_1.ChatGptAiService])

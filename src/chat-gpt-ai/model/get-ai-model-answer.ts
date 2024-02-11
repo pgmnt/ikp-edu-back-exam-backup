@@ -26,7 +26,15 @@ export class GetAiModelAnswer{
   
     @IsNotEmpty()
     @IsEnum(Category, { message: 'Please enter correct category.' })
-    readonly category: Category;
+    readonly category: Category;   
+    
+    @IsNotEmpty({message : 'Please enter sub1'})
+    @IsString()
+    readonly sub1: string;  
+
+    @IsNotEmpty({message : 'Please enter sub1'})
+    @IsString()
+    readonly sub2: string;  
 
     @IsNumber()
     @IsOptional()

@@ -24,12 +24,13 @@
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 export declare enum Category {
-    PROGRAMMING = "Programming",
+    PROGRAMMING = "IT",
     GRAPHIC = "Graphic"
 }
 export declare enum Level {
-    LV1 = "Easy",
-    LV2 = "Hard"
+    LV1 = "Beginner",
+    LV2 = "Intermediate",
+    LV3 = "Advanced"
 }
 export declare class ChatGptAiResponse {
     question: string;
@@ -40,9 +41,10 @@ export declare class ChatGptAiResponse {
     category: Category;
     requirement: String;
     lectureDetails: {
-        lectureNumber: string;
+        lectureNumber: String;
         lectureWebsite1: String;
         lectureWebsite2: String;
+        lectureDescription: String;
     }[];
 }
 export declare const ChatSchema: import("mongoose").Schema<ChatGptAiResponse, import("mongoose").Model<ChatGptAiResponse, any, any, any, import("mongoose").Document<unknown, any, ChatGptAiResponse> & ChatGptAiResponse & {

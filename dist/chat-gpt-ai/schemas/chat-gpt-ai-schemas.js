@@ -13,13 +13,14 @@ exports.ChatSchema = exports.ChatGptAiResponse = exports.Level = exports.Categor
 const mongoose_1 = require("@nestjs/mongoose");
 var Category;
 (function (Category) {
-    Category["PROGRAMMING"] = "Programming";
+    Category["PROGRAMMING"] = "IT";
     Category["GRAPHIC"] = "Graphic";
 })(Category || (exports.Category = Category = {}));
 var Level;
 (function (Level) {
-    Level["LV1"] = "Easy";
-    Level["LV2"] = "Hard";
+    Level["LV1"] = "Beginner";
+    Level["LV2"] = "Intermediate";
+    Level["LV3"] = "Advanced";
 })(Level || (exports.Level = Level = {}));
 let ChatGptAiResponse = class ChatGptAiResponse {
 };
@@ -58,6 +59,7 @@ __decorate([
             lectureTitle: String,
             lectureWebsite1: String,
             lectureWebsite2: String,
+            lectureDescription: String
         }]),
     __metadata("design:type", Array)
 ], ChatGptAiResponse.prototype, "lectureDetails", void 0);

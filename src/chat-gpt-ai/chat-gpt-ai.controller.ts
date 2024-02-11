@@ -72,11 +72,11 @@ export class ChatGptAiController {
     }
   }
 
-  @Post('/add-lecture')
-  async AddLecture(@Body() lectureData: { _id: string, lectureDetails: any[] }) {
-  const { _id, lectureDetails } = lectureData; // Use "_id" instead of "courseId"
-  return this.service.AddLearningPath(_id, lectureDetails);
+  // @Post('/add-lecture')
+  // async AddLecture(@Body() lectureData: { _id: string, lectureDetails: any[] }) {
+  // const { _id, lectureDetails } = lectureData; // Use "_id" instead of "courseId"
+  // return this.service.AddLearningPath(_id, lectureDetails);
 
-  }
+  // }
 }
 
