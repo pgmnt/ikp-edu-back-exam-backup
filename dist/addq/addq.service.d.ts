@@ -9,9 +9,7 @@ export declare class AddqService {
     private readonly openAiApi;
     private readonly logger;
     constructor(QuizResponseModel: Model<QuizResponseDocument>, ChatGptResponseModel: Model<ChatGptResponseDocument>);
-    getModelAnswer(input: GetAiModelQuiz, num: string): Promise<import("openai").CreateCompletionResponse | (mongoose.Document<unknown, {}, QuizResponseDocument> & QuizResponseDocument & Required<{
-        _id: string;
-    }>)>;
+    getModelAnswer(input: GetAiModelQuiz, num: string): Promise<any>;
     getScrapedContent(htmlContent: string): Promise<string>;
     parseQuizDetails(answerText: string): {
         num: string;

@@ -28,14 +28,12 @@ import { GetAiModelAnswer } from './model/get-ai-model-answer';
 export declare class ChatGptAiController {
     private readonly service;
     constructor(service: ChatGptAiService);
-    getModelAnswer(data: GetAiModelAnswer): Promise<(import("mongoose").Document<unknown, {}, import("./chat-gpt-ai.model").ChatGptResponseDocument> & import("./chat-gpt-ai.model").ChatGptResponseDocument & Required<{
-        _id: string;
-    }>) | import("openai").CreateCompletionResponse>;
+    getModelAnswer(data: GetAiModelAnswer): Promise<any>;
     regenLearningPath(data: GetAiModelAnswer): Promise<{
         lectureTitle: any;
         lectureWebsite: any;
     }>;
-    listModels(): Promise<import("openai").ListModelsResponse>;
+    listModels(): Promise<any>;
     Get_Course(id: string): Promise<(import("mongoose").Document<unknown, {}, import("./chat-gpt-ai.model").ChatGptResponseDocument> & import("./chat-gpt-ai.model").ChatGptResponseDocument & Required<{
         _id: string;
     }>) | {
