@@ -19,8 +19,8 @@ let OutlineController = class OutlineController {
     constructor(outlineService) {
         this.outlineService = outlineService;
     }
-    SaveCourse(dataCourse) {
-        return this.outlineService.SaveCourse(dataCourse);
+    SaveCourse(dataCourse, name) {
+        return this.outlineService.SaveCourse(dataCourse, name);
     }
     Getall_outline() {
         return this.outlineService.Getall_outline();
@@ -37,16 +37,20 @@ let OutlineController = class OutlineController {
     Publish(id) {
         return this.outlineService.Publish(id);
     }
+    GetPreview(id) {
+        return this.outlineService.GetPreview(id);
+    }
     getid(id) {
         return this.outlineService.getid(id);
     }
 };
 exports.OutlineController = OutlineController;
 __decorate([
-    (0, common_1.Post)('/add'),
+    (0, common_1.Post)('/add/:name'),
     __param(0, (0, common_1.Body)('dataCourse')),
+    __param(1, (0, common_1.Param)('name')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], OutlineController.prototype, "SaveCourse", null);
 __decorate([
@@ -83,6 +87,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], OutlineController.prototype, "Publish", null);
+__decorate([
+    (0, common_1.Get)('/preview/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], OutlineController.prototype, "GetPreview", null);
 __decorate([
     (0, common_1.Post)('/preview'),
     __param(0, (0, common_1.Body)('id')),

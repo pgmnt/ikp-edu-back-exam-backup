@@ -3,7 +3,8 @@ import { Quizmodel } from './quiz.schemas';
 export declare class LearningPath {
     lectureNumber: string;
     lectureTitle: string;
-    lectureWebsite: string;
+    lectureWebsite: string[];
+    lectureDescription: string;
     quiz: Quizmodel[];
 }
 export declare const LearningPathSchema: mongoose.Schema<LearningPath, mongoose.Model<LearningPath, any, any, any, mongoose.Document<unknown, any, LearningPath> & LearningPath & {

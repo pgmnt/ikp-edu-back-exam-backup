@@ -12,7 +12,7 @@ export declare class OutlineService {
     deleteCourse(outline: any): Promise<{
         msg: string;
     }>;
-    SaveCourse(dataCourse: any): Promise<{
+    SaveCourse(dataCourse: any, name: string): Promise<{
         msg: string;
         data: Types.ObjectId;
     }>;
@@ -29,6 +29,11 @@ export declare class OutlineService {
     }>;
     EditNewOutline(dataCourse: any): Promise<void>;
     Publish(id: string): Promise<{
+        msg: string;
+    }>;
+    GetPreview(id: string): Promise<(mongoose.Document<unknown, {}, Outline> & Outline & {
+        _id: Types.ObjectId;
+    }) | {
         msg: string;
     }>;
 }

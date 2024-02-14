@@ -25,8 +25,12 @@ __decorate([
 ], LearningPath.prototype, "lectureTitle", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Array)
 ], LearningPath.prototype, "lectureWebsite", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], LearningPath.prototype, "lectureDescription", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'Quizmodel' }] }),
     __metadata("design:type", Array)

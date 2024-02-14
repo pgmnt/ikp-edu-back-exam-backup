@@ -5,9 +5,9 @@ import { OutlineService } from './outline.service';
 export class OutlineController {
     constructor( private  outlineService: OutlineService) {}
     
-    @Post('/add')
-    SaveCourse(@Body('dataCourse') dataCourse : string){
-            return this.outlineService.SaveCourse(dataCourse)
+    @Post('/add/:name')
+    SaveCourse(@Body('dataCourse') dataCourse : string  , @Param('name') name : string){
+            return this.outlineService.SaveCourse(dataCourse , name)
     }
 
     @Get('')
@@ -36,6 +36,10 @@ export class OutlineController {
                 return this.outlineService.Publish(id)
     }
 
+    @Get('/preview/:id')
+    GetPreview(@Param('id') id : string){
+                return this.outlineService.GetPreview(id)
+    }
     
               
 

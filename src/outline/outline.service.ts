@@ -65,7 +65,7 @@ export class OutlineService {
 
 
 
-  async SaveCourse(dataCourse: any) {
+  async SaveCourse(dataCourse: any , name : string) {
     try {
       const quizList: Array<any> = []
       let exams = []
@@ -101,36 +101,44 @@ export class OutlineService {
           await newExam.save()
           return newExam
         }))
-
+        
         const lectureDetailsDict = outline.lectureDetails;
         let implementLecture = []
+        console.log(lectureDetailsDict , '<<<<<<')
+
         for (let lectureDetail of lectureDetailsDict) {
           if (lectureDetail) {
-            const newlecture = new this.LearningPathModel({
+            const lecTureWebsite = []
+            const keys = Object.keys(lectureDetail)
+            const keysOfWebsite = keys.filter((key)=> key.includes('lectureWebsite'))
+            keysOfWebsite.forEach((key)=> key.includes('lectureWebsite') ? lecTureWebsite.push(lectureDetail[key])   : null )
+            
+            const newLecture = new this.LearningPathModel({
                 lectureNumber : lectureDetail.lectureNumber, 
                 lectureTitle : lectureDetail.lectureTitle,
-                lectureWebsite : lectureDetail.lectureWebsite
+                lectureDescription : lectureDetail.lectureDescription,
+                lectureWebsite : lecTureWebsite
             });
 
            if(lectureDetail.quiz){
             for (let quizSave of lectureDetail.quiz) {
-              const newquiz = new this.QuizModel({
+              const newQuiz = new this.QuizModel({
                     num : quizSave.num,
                     question_text :quizSave.question_text,
                     options : quizSave.options
               });
         
               // Save the new quiz to the database
-             const quizchild = await newquiz.save();
+             const quizChild = await newQuiz.save();
               // Push the ObjectId of the saved quiz to the newlecture.quiz array
-              newlecture.quiz.push(quizchild);
+              newLecture.quiz.push(quizChild);
             }
           }else{
               console.log('empty')
           }
         
             // Save the new lecture to the database after all quizzes are saved
-            const res = await newlecture.save();
+            const res = await newLecture.save();
             implementLecture.push(res)
 
           } else {
@@ -146,9 +154,10 @@ export class OutlineService {
           description : outline.description,
           requirement  :outline.requirement,
           lectureDetails : implementLecture,
-          examination : exam_child
+          examination : exam_child,
+          author : name
         })   
-          await newOutline.save()
+        await newOutline.save()
         return { msg: 'Complete'  , data : newOutline._id }
 
      
@@ -199,7 +208,6 @@ async EditOutline(id : string){
             })
             .populate('examination');
              if(getAlloutline){
-                console.log(getAlloutline)
                 return getAlloutline
             }else{
                 return { message : 'Not Found'}
@@ -267,8 +275,34 @@ async Publish(id : string){
     }
 }
 
+async GetPreview(id : string){
+  try{
+    const findId = await this.OutlineModel
+    .findOne({ _id: id })
+    .populate([
+        {
+            path: 'lectureDetails',
+            populate: {
+                path: 'quiz',
+            },
+        },
+        {
+            path: 'examination',
+        }
+    ])
+    .exec();
+    if(!findId){
+        return { msg : 'Not found!'}
+    }
+    return findId
+  }catch(err){
+      console.log(err)
+  }
+}
+
   
 }
+
 
 
 

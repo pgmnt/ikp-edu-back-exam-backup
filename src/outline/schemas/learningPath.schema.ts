@@ -14,7 +14,12 @@ export class LearningPath {
     lectureTitle: string;
 
     @Prop()
-    lectureWebsite: string;
+    lectureWebsite: string[];
+
+    @Prop()
+    lectureDescription: string;
+
+    
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Quizmodel' }] })
     quiz: Quizmodel[];

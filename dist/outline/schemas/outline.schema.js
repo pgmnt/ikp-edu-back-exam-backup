@@ -32,6 +32,10 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Outline.prototype, "publish", void 0);
 __decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Outline.prototype, "author", void 0);
+__decorate([
     (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'LearningPath' }] }),
     __metadata("design:type", Array)
 ], Outline.prototype, "lectureDetails", void 0);

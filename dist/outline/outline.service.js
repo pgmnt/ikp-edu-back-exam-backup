@@ -56,7 +56,7 @@ let OutlineService = class OutlineService {
             console.error(error);
         }
     }
-    async SaveCourse(dataCourse) {
+    async SaveCourse(dataCourse, name) {
         try {
             const quizList = [];
             let exams = [];
@@ -90,28 +90,34 @@ let OutlineService = class OutlineService {
             }));
             const lectureDetailsDict = outline.lectureDetails;
             let implementLecture = [];
+            console.log(lectureDetailsDict, '<<<<<<');
             for (let lectureDetail of lectureDetailsDict) {
                 if (lectureDetail) {
-                    const newlecture = new this.LearningPathModel({
+                    const lecTureWebsite = [];
+                    const keys = Object.keys(lectureDetail);
+                    const keysOfWebsite = keys.filter((key) => key.includes('lectureWebsite'));
+                    keysOfWebsite.forEach((key) => key.includes('lectureWebsite') ? lecTureWebsite.push(lectureDetail[key]) : null);
+                    const newLecture = new this.LearningPathModel({
                         lectureNumber: lectureDetail.lectureNumber,
                         lectureTitle: lectureDetail.lectureTitle,
-                        lectureWebsite: lectureDetail.lectureWebsite
+                        lectureDescription: lectureDetail.lectureDescription,
+                        lectureWebsite: lecTureWebsite
                     });
                     if (lectureDetail.quiz) {
                         for (let quizSave of lectureDetail.quiz) {
-                            const newquiz = new this.QuizModel({
+                            const newQuiz = new this.QuizModel({
                                 num: quizSave.num,
                                 question_text: quizSave.question_text,
                                 options: quizSave.options
                             });
-                            const quizchild = await newquiz.save();
-                            newlecture.quiz.push(quizchild);
+                            const quizChild = await newQuiz.save();
+                            newLecture.quiz.push(quizChild);
                         }
                     }
                     else {
                         console.log('empty');
                     }
-                    const res = await newlecture.save();
+                    const res = await newLecture.save();
                     implementLecture.push(res);
                 }
                 else {
@@ -123,7 +129,8 @@ let OutlineService = class OutlineService {
                 description: outline.description,
                 requirement: outline.requirement,
                 lectureDetails: implementLecture,
-                examination: exam_child
+                examination: exam_child,
+                author: name
             });
             await newOutline.save();
             return { msg: 'Complete', data: newOutline._id };
@@ -167,7 +174,6 @@ let OutlineService = class OutlineService {
             })
                 .populate('examination');
             if (getAlloutline) {
-                console.log(getAlloutline);
                 return getAlloutline;
             }
             else {
@@ -215,6 +221,31 @@ let OutlineService = class OutlineService {
                 return { msg: 'Not found!' };
             }
             return { msg: 'Complete' };
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    async GetPreview(id) {
+        try {
+            const findId = await this.OutlineModel
+                .findOne({ _id: id })
+                .populate([
+                {
+                    path: 'lectureDetails',
+                    populate: {
+                        path: 'quiz',
+                    },
+                },
+                {
+                    path: 'examination',
+                }
+            ])
+                .exec();
+            if (!findId) {
+                return { msg: 'Not found!' };
+            }
+            return findId;
         }
         catch (err) {
             console.log(err);

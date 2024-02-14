@@ -6,6 +6,7 @@ export declare class Outline {
     description: string;
     requirement: string;
     publish: boolean;
+    author: string;
     lectureDetails: LearningPath[];
     examination: Examination[];
 }

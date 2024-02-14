@@ -19,11 +19,16 @@ export class Outline {
   @Prop({ default: false })
   publish: boolean;
 
+
+  @Prop()
+  author : string
+
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'LearningPath' }] })
   lectureDetails: LearningPath[];
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Examination' }] })
   examination: Examination[];
+
 }
 
 export const OutlineSchema = SchemaFactory.createForClass(Outline);
