@@ -32,7 +32,7 @@ export class AddqService {
 
   async getModelAnswer(input: GetAiModelQuiz, num: string) {
     try {
-      const course = input.course_id;
+      const course = input.lecture_id;
       let lectureWebsite1: string | undefined;
       let lectureWebsite2: string | undefined;
 

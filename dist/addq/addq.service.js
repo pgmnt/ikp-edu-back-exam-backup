@@ -35,7 +35,7 @@ let AddqService = AddqService_1 = class AddqService {
     }
     async getModelAnswer(input, num) {
         try {
-            const course = input.course_id;
+            const course = input.lecture_id;
             let lectureWebsite1;
             let lectureWebsite2;
             const courseDocument = await this.ChatGptResponseModel.findOne({ 'lectureDetails._id': course }, { 'lectureDetails.$': 1 });

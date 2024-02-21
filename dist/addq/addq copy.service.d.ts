@@ -12,9 +12,9 @@ export declare class AddqService {
     saveQuizResponse(lecture_id: string, questions: any[]): Promise<mongoose.Document<unknown, {}, QuizResponseDocument> & QuizResponseDocument & Required<{
         _id: string;
     }>>;
-    getModelAnswer(input: GetAiModelQuiz, num: string): Promise<(mongoose.Document<unknown, {}, QuizResponseDocument> & QuizResponseDocument & Required<{
+    getModelAnswer(input: GetAiModelQuiz, num: string): Promise<import("openai").CreateCompletionResponse | (mongoose.Document<unknown, {}, QuizResponseDocument> & QuizResponseDocument & Required<{
         _id: string;
-    }>) | import("openai").CreateCompletionResponse>;
+    }>)>;
     getScrapedContent(htmlContent: string): Promise<string>;
     parseQuizDetails(answerText1: string): Promise<any[]>;
 }
