@@ -28,12 +28,12 @@ import { GetAiModelQuiz } from './model/get-quiz-model-answer';
 export declare class AddqController {
     private appqService;
     constructor(appqService: AddqService);
-    getModelAnswer(data: GetAiModelQuiz): Promise<import("openai").CreateCompletionResponse | (import("mongoose").Document<unknown, {}, import("./addq.model").QuizResponseDocument> & import("./addq.model").QuizResponseDocument & Required<{
+    getModelAnswer(data: GetAiModelQuiz): Promise<(import("mongoose").Document<unknown, {}, import("./addq.model").QuizResponseDocument> & import("./addq.model").QuizResponseDocument & Required<{
         _id: string;
-    }>)>;
-    regenQuiz(data: GetAiModelQuiz): Promise<import("openai").CreateCompletionResponse | (import("mongoose").Document<unknown, {}, import("./addq.model").QuizResponseDocument> & import("./addq.model").QuizResponseDocument & Required<{
+    }>) | import("openai").CreateCompletionResponse>;
+    regenQuiz(data: GetAiModelQuiz): Promise<(import("mongoose").Document<unknown, {}, import("./addq.model").QuizResponseDocument> & import("./addq.model").QuizResponseDocument & Required<{
         _id: string;
-    }>)>;
+    }>) | import("openai").CreateCompletionResponse>;
     getDataQuiz(): void;
     getScrapedContent(input: {
         content: string;

@@ -24,7 +24,7 @@
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 export declare enum Category {
-    PROGRAMMING = "IT",
+    PROGRAMMING = "ICT literacy",
     GRAPHIC = "Graphic"
 }
 export declare enum Level {

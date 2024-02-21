@@ -13,7 +13,7 @@ exports.ChatSchema = exports.ChatGptAiResponse = exports.Level = exports.Categor
 const mongoose_1 = require("@nestjs/mongoose");
 var Category;
 (function (Category) {
-    Category["PROGRAMMING"] = "IT";
+    Category["PROGRAMMING"] = "ICT literacy";
     Category["GRAPHIC"] = "Graphic";
 })(Category || (exports.Category = Category = {}));
 var Level;

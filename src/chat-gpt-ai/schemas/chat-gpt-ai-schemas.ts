@@ -2,7 +2,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
 export enum Category {
-  PROGRAMMING = 'IT',
+  PROGRAMMING = 'ICT literacy',
   GRAPHIC = 'Graphic',
 }
 
