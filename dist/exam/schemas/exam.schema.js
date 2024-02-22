@@ -17,15 +17,31 @@ exports.Examination = Examination;
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Examination.prototype, "num", void 0);
+], Examination.prototype, "question", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], Examination.prototype, "question_text", void 0);
+], Examination.prototype, "answer", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ type: [{ ans: String, isCorrect: Boolean }] }),
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Examination.prototype, "modelId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Examination.prototype, "course_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", String)
+], Examination.prototype, "lecture_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
+    __metadata("design:type", Number)
+], Examination.prototype, "num", void 0);
+__decorate([
+    (0, mongoose_1.Prop)(),
     __metadata("design:type", Array)
-], Examination.prototype, "options", void 0);
+], Examination.prototype, "questions", void 0);
 exports.Examination = Examination = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,

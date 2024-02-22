@@ -24,11 +24,18 @@
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 export declare class Examination {
-    num: string;
-    question_text: string;
-    options: Array<{
-        ans: string;
-        isCorrect: boolean;
+    question: string;
+    answer: string;
+    modelId: string;
+    course_id: string;
+    lecture_id: string;
+    num: number;
+    questions: Array<{
+        question: string;
+        options: Array<{
+            ans: string;
+            isCorrect: boolean;
+        }>;
     }>;
 }
 export declare const ExamSchema: import("mongoose").Schema<Examination, import("mongoose").Model<Examination, any, any, any, import("mongoose").Document<unknown, any, Examination> & Examination & {
