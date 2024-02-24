@@ -32,7 +32,7 @@ let AddqController = class AddqController {
         return this.appqService.getDataQuiz();
     }
     async getScrapedContent(input) {
-        const result = await this.appqService.getScrapedContent(input.content);
+        const result = await this.appqService.getModelAnswer(input, String(5));
         return { result };
     }
 };
@@ -63,7 +63,7 @@ __decorate([
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)(new common_1.ValidationPipe({ transform: true }))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [get_quiz_model_answer_1.GetAiModelQuiz]),
     __metadata("design:returntype", Promise)
 ], AddqController.prototype, "getScrapedContent", null);
 exports.AddqController = AddqController = __decorate([

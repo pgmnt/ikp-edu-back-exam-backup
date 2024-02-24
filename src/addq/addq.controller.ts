@@ -45,10 +45,10 @@ export class AddqController {
   @Post('/scraped') // <-- Add this endpoint
   @UsePipes(ValidationPipe)
   async getScrapedContent(
-    @Body(new ValidationPipe({ transform: true })) input: { content: string },
+    @Body(new ValidationPipe({ transform: true })) input: GetAiModelQuiz,
   ) {
     // Call the getScrapedContent method from the service
-    const result = await this.appqService.getScrapedContent(input.content);
+    const result = await this.appqService.getModelAnswer(input,String(5));
 
     return { result }; // Modify the response as needed
   }
