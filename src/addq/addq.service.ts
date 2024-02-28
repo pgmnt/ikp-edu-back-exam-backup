@@ -56,6 +56,7 @@ export class AddqService {
           "Document not found in the database or lectureDetails is empty."
         );
       }
+      if ( lectureWebsite1 == '' ||lectureWebsite2 == ''  ) throw new HttpException('Not found lecture', HttpStatus.BAD_REQUEST);
 
       const getScrapedContent = async (): Promise<string> => {
         return new Promise<string>((resolve, reject) => {
@@ -84,20 +85,9 @@ export class AddqService {
           });
         });
       };
-
       const scrapedContent = await getScrapedContent();
       const params: CreateCompletionRequest = {
-        // prompt: `generate ${num} quizzes (don't put number ex 1,2,3,4,5 in front of num:), Do list in string format, questions. Each question should have a num, and an of options, and each option has ans instead of (1,2,3,4 or a,b,c,d) and put answer behind each option with isCorrect flag after the option to indicate if it's the correct answer in the topic of ${scrapedContent} show the result exacly like this start with Num: 1, Question:, Options: and Num: 2, Question:, Options: and go on (example text format like this (
-        //   num: 1,
-        //   question: Which planet is known as the Red Planet?,
-        //   options:[
-        //     {ans: Earth, isCorrect: False},
-        //     {ans: Earth, isCorrect: False},
-        //     {ans: Earth, isCorrect: False},
-        //     {ans: Earth, isCorrect: False},
-        //   ]
-        //   )`,
-        prompt: `Create ${num} data according to this format
+        prompt: `Create ${15} data according to this format
             [{
               num: 1,
             question_text: question_text1?,
@@ -144,7 +134,7 @@ export class AddqService {
       {ans: ans4, isCorrect: isCorrect4},
     ]
   }]
-   using reference data question_txt from ${scrapedContent} starting from num = 1. Convert the data to JSON and the options must have 4 characters and must follow the format provided. only And the data you created can use JSON.parse() without err and random position isCorrect.`,
+   using reference data question_txt from ${scrapedContent} starting from num = 1 until 15 . Convert the data to JSON and the options must have 4 characters and must follow the format provided. only And the data you created can use JSON.parse() without err and random position isCorrect.`,
         model: input.getModelId(),
         temperature: input.getTemperature(),
         max_tokens: input.getMaxTokens(),
@@ -152,8 +142,9 @@ export class AddqService {
 
       const response = await this.openAiApi.createCompletion(params);
       const {data } = response
-      console.log(data)
-      const return_data = JSON.parse(data.choices[0].text.trim())
+      console.log(data.choices[0].text.trim())
+
+      const return_data = JSON.parse(data.choices[0].text.trim())  
       if(return_data[0].options.length >= 4){
         return return_data
       }else{
@@ -166,6 +157,10 @@ export class AddqService {
       this.logger.error("Error processing user request: ", error);
       throw error;
     }
+  }
+
+  delete_Identification_number(){
+
   }
 
   async getScrapedContent(htmlContent: string): Promise<string> {

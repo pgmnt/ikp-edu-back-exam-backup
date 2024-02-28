@@ -24,13 +24,10 @@
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 export declare class Examination {
-    question: string;
+    question_text: string;
     answer: string;
-    modelId: string;
-    course_id: string;
-    lecture_id: string;
     num: number;
-    questions: Array<{
+    options: Array<{
         question: string;
         options: Array<{
             ans: string;

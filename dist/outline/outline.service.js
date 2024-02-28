@@ -73,6 +73,7 @@ let OutlineService = class OutlineService {
                     outline = JSON.parse(data.outline);
                 }
             });
+            console.log(exams, '<<<<<<<<<<');
             outline['examination'] = exams;
             quizList.forEach((data, index) => {
                 outline.lectureDetails[index][`quiz`] = data;
@@ -90,7 +91,6 @@ let OutlineService = class OutlineService {
             }));
             const lectureDetailsDict = outline.lectureDetails;
             let implementLecture = [];
-            console.log(lectureDetailsDict, '<<<<<<');
             for (let lectureDetail of lectureDetailsDict) {
                 if (lectureDetail) {
                     const lecTureWebsite = [];

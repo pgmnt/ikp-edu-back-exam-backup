@@ -5,25 +5,15 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 })
 export class Examination {
   @Prop()
-  question: string;
+  question_text: string;
 
   @Prop()
   answer: string;
-
-  @Prop()
-  modelId: string;
-
-  @Prop()
-  course_id: string;
-
-  @Prop()
-  lecture_id: string;
-
   @Prop()
   num: number;
 
   @Prop()
-  questions: Array<{
+  options: Array<{
     question: string;
     options: Array<{
       ans: string;

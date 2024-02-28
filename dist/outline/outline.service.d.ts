@@ -16,9 +16,9 @@ export declare class OutlineService {
         msg: string;
         data: Types.ObjectId;
     }>;
-    getid(id: string): Promise<ErrorConstructor | (mongoose.Document<unknown, {}, Outline> & Outline & {
+    getid(id: string): Promise<(mongoose.Document<unknown, {}, Outline> & Outline & {
         _id: Types.ObjectId;
-    })>;
+    }) | ErrorConstructor>;
     Getall_outline(): Promise<(mongoose.Document<unknown, {}, Outline> & Outline & {
         _id: Types.ObjectId;
     })[]>;

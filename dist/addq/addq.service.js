@@ -51,6 +51,8 @@ let AddqService = AddqService_1 = class AddqService {
             else {
                 console.error("Document not found in the database or lectureDetails is empty.");
             }
+            if (lectureWebsite1 == '' || lectureWebsite2 == '')
+                throw new common_1.HttpException('Not found lecture', common_1.HttpStatus.BAD_REQUEST);
             const getScrapedContent = async () => {
                 return new Promise((resolve, reject) => {
                     const pythonProcess = (0, child_process_1.spawn)("python", [
@@ -78,7 +80,7 @@ let AddqService = AddqService_1 = class AddqService {
             };
             const scrapedContent = await getScrapedContent();
             const params = {
-                prompt: `Create ${num} data according to this format
+                prompt: `Create ${15} data according to this format
             [{
               num: 1,
             question_text: question_text1?,
@@ -125,14 +127,14 @@ let AddqService = AddqService_1 = class AddqService {
       {ans: ans4, isCorrect: isCorrect4},
     ]
   }]
-   using reference data question_txt from ${scrapedContent} starting from num = 1. Convert the data to JSON and the options must have 4 characters and must follow the format provided. only And the data you created can use JSON.parse() without err and random position isCorrect.`,
+   using reference data question_txt from ${scrapedContent} starting from num = 1 until 15 . Convert the data to JSON and the options must have 4 characters and must follow the format provided. only And the data you created can use JSON.parse() without err and random position isCorrect.`,
                 model: input.getModelId(),
                 temperature: input.getTemperature(),
                 max_tokens: input.getMaxTokens(),
             };
             const response = await this.openAiApi.createCompletion(params);
             const { data } = response;
-            console.log(data);
+            console.log(data.choices[0].text.trim());
             const return_data = JSON.parse(data.choices[0].text.trim());
             if (return_data[0].options.length >= 4) {
                 return return_data;
@@ -146,6 +148,8 @@ let AddqService = AddqService_1 = class AddqService {
             this.logger.error("Error processing user request: ", error);
             throw error;
         }
+    }
+    delete_Identification_number() {
     }
     async getScrapedContent(htmlContent) {
         try {

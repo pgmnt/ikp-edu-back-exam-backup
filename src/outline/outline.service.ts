@@ -82,7 +82,7 @@ export class OutlineService {
         }
       })
 
-
+      console.log(exams , '<<<<<<<<<<')
 
       outline['examination'] = exams
       quizList.forEach((data: any, index: number) => {
@@ -104,7 +104,6 @@ export class OutlineService {
         
         const lectureDetailsDict = outline.lectureDetails;
         let implementLecture = []
-        console.log(lectureDetailsDict , '<<<<<<')
 
         for (let lectureDetail of lectureDetailsDict) {
           if (lectureDetail) {
@@ -148,7 +147,6 @@ export class OutlineService {
         }
 
         // Now lecture_child is an array of resolved promises
-        
         const newOutline = new this.OutlineModel({
           question : outline.question,
           description : outline.description,

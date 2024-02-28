@@ -10,6 +10,7 @@ export declare class AddqService {
     private readonly logger;
     constructor(QuizResponseModel: Model<QuizResponseDocument>, ChatGptResponseModel: Model<ChatGptResponseDocument>);
     getModelAnswer(input: GetAiModelQuiz, num: string): Promise<any>;
+    delete_Identification_number(): void;
     getScrapedContent(htmlContent: string): Promise<string>;
     parseQuizDetails(answerText: string): {
         num: string;
