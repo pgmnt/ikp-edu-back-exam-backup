@@ -42,8 +42,7 @@ export declare class ChatGptAiResponse {
     requirement: String;
     lectureDetails: {
         lectureNumber: String;
-        lectureWebsite1: String;
-        lectureWebsite2: String;
+        lectureWebsite: String[];
         lectureDescription: String;
     }[];
 }

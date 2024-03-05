@@ -12,16 +12,14 @@ export const ChatGptResponseSchema = new mongoose.Schema({
     {
       lectureNumber: String,
       lectureTitle: String,
-      lectureWebsite1: String,
-      lectureWebsite2: String,
+      lectureWebsite: Array<String>,
       lectureDescription: String,
     },
   ],
 });
 
 export interface ChatGptResponseDocument extends mongoose.Document {
-  lectureWebsite1: any;
-  lectureWebsite2: any;
+  lectureWebsite: string[];
   lectureDescription: any; // เพิ่ม lectureDescription ที่นี่
   _id: string;
   question: string;
@@ -30,13 +28,12 @@ export interface ChatGptResponseDocument extends mongoose.Document {
   description: String;
   level: String,
   Category: String,
-  requirement: String;
+  requirement: String;  
   lectureDetails: Array<{
     lectureNumber: string;
     lectureDescription: string; // เพิ่ม lectureDescription ที่นี่
     lectureTitle: string;
-    lectureWebsite1: string;
-    lectureWebsite2: string;
+    lectureWebsite: string[];
   }>;
 }
 

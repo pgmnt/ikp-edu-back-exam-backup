@@ -43,8 +43,7 @@ export declare class ChatGptAiService {
         lectureNumber: string;
         lectureDescription: string;
         lectureTitle: string;
-        lectureWebsite1: string;
-        lectureWebsite2: string;
+        lectureWebsite: string[];
     }[];
     saveGptResponse(question: any, answer: any, modelId: any, description: any, level: any, category: any, requirement: any, lectureDetails: any): Promise<import("mongoose").Document<unknown, {}, ChatGptResponseDocument> & ChatGptResponseDocument & Required<{
         _id: string;

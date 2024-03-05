@@ -101,7 +101,8 @@ let OutlineService = class OutlineService {
                         lectureNumber: lectureDetail.lectureNumber,
                         lectureTitle: lectureDetail.lectureTitle,
                         lectureDescription: lectureDetail.lectureDescription,
-                        lectureWebsite: lecTureWebsite
+                        lectureWebsite1: lecTureWebsite[0],
+                        lectureWebsite2: lecTureWebsite[1]
                     });
                     if (lectureDetail.quiz) {
                         for (let quizSave of lectureDetail.quiz) {

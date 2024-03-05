@@ -57,8 +57,7 @@ __decorate([
     (0, mongoose_1.Prop)([{
             lectureNumber: String,
             lectureTitle: String,
-            lectureWebsite1: String,
-            lectureWebsite2: String,
+            lectureWebsite: (Array),
             lectureDescription: String
         }]),
     __metadata("design:type", Array)

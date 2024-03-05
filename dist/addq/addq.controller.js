@@ -15,43 +15,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddqController = void 0;
 const common_1 = require("@nestjs/common");
 const addq_service_1 = require("./addq.service");
-const get_quiz_model_answer_1 = require("./model/get-quiz-model-answer");
+const gen_quiz_dto_1 = require("./dto/gen-quiz-dto");
 let AddqController = class AddqController {
     constructor(appqService) {
         this.appqService = appqService;
-    }
-    async getModelAnswer(data) {
-        console.log('getModelAnswer >>', data);
-        return this.appqService.getModelAnswer(data, '5');
-    }
-    regenQuiz(data) {
-        console.log('Title Regen >>', data);
-        return this.appqService.getModelAnswer(data, '1');
     }
     getDataQuiz() {
         return this.appqService.getDataQuiz();
     }
     async getScrapedContent(input) {
-        const result = await this.appqService.getModelAnswer(input, String(5));
+        const result = await this.appqService.getModelAnswer(input);
         return { result };
     }
 };
 exports.AddqController = AddqController;
-__decorate([
-    (0, common_1.Post)('/'),
-    (0, common_1.UsePipes)(common_1.ValidationPipe),
-    __param(0, (0, common_1.Body)(new common_1.ValidationPipe({ transform: true }))),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [get_quiz_model_answer_1.GetAiModelQuiz]),
-    __metadata("design:returntype", Promise)
-], AddqController.prototype, "getModelAnswer", null);
-__decorate([
-    (0, common_1.Post)('/regen'),
-    __param(0, (0, common_1.Body)(new common_1.ValidationPipe({ transform: true }))),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [get_quiz_model_answer_1.GetAiModelQuiz]),
-    __metadata("design:returntype", void 0)
-], AddqController.prototype, "regenQuiz", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
@@ -63,7 +40,7 @@ __decorate([
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)(new common_1.ValidationPipe({ transform: true }))),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [get_quiz_model_answer_1.GetAiModelQuiz]),
+    __metadata("design:paramtypes", [gen_quiz_dto_1.GenQuiz]),
     __metadata("design:returntype", Promise)
 ], AddqController.prototype, "getScrapedContent", null);
 exports.AddqController = AddqController = __decorate([

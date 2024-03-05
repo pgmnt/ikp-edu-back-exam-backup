@@ -1,7 +1,7 @@
 //addq.controller.ts
 import { Body, Controller, Delete, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AddqService } from './addq.service';
-import { GetAiModelQuiz } from './model/get-quiz-model-answer';
+import { GenQuiz } from './dto/gen-quiz-dto';
 
 
 @Controller('addq')
@@ -14,22 +14,22 @@ export class AddqController {
   //             return this.appqService.addquiz(id)
   //     }
 
-  @Post('/')
-  @UsePipes(ValidationPipe)
-  async getModelAnswer(
-  @Body(new ValidationPipe({ transform: true })) data: GetAiModelQuiz,
-  ) {
-  console.log('getModelAnswer >>', data);
-  return this.appqService.getModelAnswer(data , '5');
-  }
+  // @Post('/')
+  // @UsePipes(ValidationPipe)
+  // async getModelAnswer(
+  // @Body(new ValidationPipe({ transform: true })) data: GetAiModelQuiz,
+  // ) {
+  // console.log('getModelAnswer >>', data);
+  // return this.appqService.getModelAnswer(data , '5');
+  // }
 
 
-  @Post('/regen')
-  regenQuiz(@Body(new ValidationPipe({ transform: true })) data: GetAiModelQuiz,) {
-    console.log('Title Regen >>', data);
-    return this.appqService.getModelAnswer(data, '1')
+  // @Post('/regen')
+  // regenQuiz(@Body(new ValidationPipe({ transform: true })) data: GetAiModelQuiz,) {
+  //   console.log('Title Regen >>', data);
+  //   return this.appqService.getModelAnswer(data, '1')
 
-  }
+  // }
 
   @Get()
   getDataQuiz() {
@@ -45,10 +45,10 @@ export class AddqController {
   @Post('/scraped') // <-- Add this endpoint
   @UsePipes(ValidationPipe)
   async getScrapedContent(
-    @Body(new ValidationPipe({ transform: true })) input: GetAiModelQuiz,
+    @Body(new ValidationPipe({ transform: true })) input:GenQuiz,
   ) {
     // Call the getScrapedContent method from the service
-    const result = await this.appqService.getModelAnswer(input,String(5));
+    const result = await this.appqService.getModelAnswer(input);
 
     return { result }; // Modify the response as needed
   }

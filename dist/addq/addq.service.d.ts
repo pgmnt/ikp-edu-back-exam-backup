@@ -1,7 +1,7 @@
 import mongoose, { Model } from "mongoose";
 import { QuizResponseDocument } from "./addq.model";
-import { GetAiModelQuiz } from "./model/get-quiz-model-answer";
 import { ChatGptResponseDocument } from "../chat-gpt-ai/chat-gpt-ai.model";
+import { GenQuiz } from "./dto/gen-quiz-dto";
 export declare class AddqService {
     private readonly QuizResponseModel;
     private readonly ChatGptResponseModel;
@@ -9,7 +9,10 @@ export declare class AddqService {
     private readonly openAiApi;
     private readonly logger;
     constructor(QuizResponseModel: Model<QuizResponseDocument>, ChatGptResponseModel: Model<ChatGptResponseDocument>);
-    getModelAnswer(input: GetAiModelQuiz, num: string): Promise<any>;
+    getModelAnswer(input: GenQuiz): Promise<{
+        result: any;
+        statusCode: number;
+    }>;
     delete_Identification_number(): void;
     getScrapedContent(htmlContent: string): Promise<string>;
     parseQuizDetails(answerText: string): {

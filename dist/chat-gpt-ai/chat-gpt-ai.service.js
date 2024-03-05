@@ -184,8 +184,7 @@ let ChatGptAiService = ChatGptAiService_1 = class ChatGptAiService {
             lectureDetails: lectureDetails.map((lecture) => ({
                 lectureNumber: lecture.lectureNumber,
                 lectureTitle: lecture.lectureTitle,
-                lectureWebsite1: lecture.lectureWebsite1,
-                lectureWebsite2: lecture.lectureWebsite2,
+                lectureWebsite: [lecture.lectureWebsite1, lecture.lectureWebsite2],
                 lectureDescription: lecture.lectureDescription,
             })),
         });

@@ -19,7 +19,9 @@ const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const openai_1 = require("openai");
 const child_process_1 = require("child_process");
-const mongodb_1 = require("mongodb");
+const DEFAULT_MODEL_ID = "gpt-3.5-turbo-instruct";
+const DEFAULT_TEMPERATURE = 0.9;
+const DEFAULT_MAX_TOKENS = 2048;
 let AddqService = AddqService_1 = class AddqService {
     getDataQuiz() {
         throw new Error("Method not implemented.");
@@ -34,24 +36,13 @@ let AddqService = AddqService_1 = class AddqService {
         });
         this.openAiApi = new openai_1.OpenAIApi(configuration);
     }
-    async getModelAnswer(input, num) {
+    async getModelAnswer(input) {
         try {
-            const course = input.course_id;
-            const Object_Id = new mongodb_1.ObjectId(course);
             let lectureWebsite1;
             let lectureWebsite2;
-            const courseDocument = await this.ChatGptResponseModel.findOne({ "lectureDetails._id": Object_Id }, { "lectureDetails.$": 1 });
-            if (courseDocument &&
-                courseDocument.lectureDetails &&
-                courseDocument.lectureDetails.length > 0) {
-                const lectureDetails = courseDocument.lectureDetails[0];
-                lectureWebsite1 = lectureDetails.lectureWebsite1;
-                lectureWebsite2 = lectureDetails.lectureWebsite2;
-            }
-            else {
-                console.error("Document not found in the database or lectureDetails is empty.");
-            }
-            if (lectureWebsite1 == '' || lectureWebsite2 == '')
+            lectureWebsite1 = input.webArray[0];
+            lectureWebsite2 = input.webArray[1];
+            if (!lectureWebsite1 || !lectureWebsite2)
                 throw new common_1.HttpException('Not found lecture', common_1.HttpStatus.BAD_REQUEST);
             const getScrapedContent = async () => {
                 return new Promise((resolve, reject) => {
@@ -82,62 +73,62 @@ let AddqService = AddqService_1 = class AddqService {
             const params = {
                 prompt: `Create ${15} data according to this format
             [{
-              num: 1,
-            question_text: question_text1?,
-            options:[ 
-              {ans: ans1, isCorrect: boolean isCorrect1},
-              {ans: ans2, isCorrect: boolean isCorrect2},
-              {ans: ans3, isCorrect: boolean isCorrect3},
-              {ans: ans4, isCorrect: boolean isCorrect4},
+              "num": 1,
+            "question_text": "question_text1"?,
+            "options":[ 
+              {"ans": "ans1", "isCorrect": boolean isCorrect1},
+              {"ans": "ans2", "isCorrect": boolean isCorrect2},
+              {"ans": "ans3", "isCorrect": boolean isCorrect3},
+              {"ans": "ans4", "isCorrect": boolean isCorrect4},
             ]
           },{
-            num: 2,
-          question_text: question_text2?,
-          options:[ 
-            {ans: ans1, isCorrect:boolean isCorrect1},
-            {ans: ans2, isCorrect:boolean isCorrect1},
-            {ans: ans3, isCorrect:boolean isCorrect1},
-            {ans: ans4, isCorrect:boolean isCorrect4},
+            "num": 2,
+          "question_text": "question_text2"?,
+          "options":[ 
+            {"ans": "ans1", "isCorrect": boolean isCorrect1},
+            {"ans": "ans2", "isCorrect": boolean isCorrect2},
+            {"ans": "ans3", "isCorrect": boolean isCorrect3},
+            {"ans": "ans4", "isCorrect": boolean isCorrect4},
           ]
         },{
-          num: 3,
-        question_text: question_text3?,
-        options:[ 
-          {ans: ans1, isCorrect:boolean isCorrect1},
-          {ans: ans2, isCorrect:boolean isCorrect2},
-          {ans: ans3, isCorrect:boolean isCorrect3},
-          {ans: ans4, isCorrect:boolean isCorrect4},
+          "num": 3,
+        "question_text": "question_text3"?,
+        "options":[ 
+          {"ans": "ans1", "isCorrect": boolean isCorrect1},
+          {"ans": "ans2", "isCorrect": boolean isCorrect2},
+          {"ans": "ans3", "isCorrect": boolean isCorrect3},
+          {"ans": "ans4", "isCorrect": boolean isCorrect4},
         ]
       },{
-        num: 4,
-      question_text: question_text4?,
-      options:[ 
-        {ans: ans1, isCorrect:boolean isCorrect1},
-        {ans: ans2, isCorrect:boolean isCorrect2},
-        {ans: ans3, isCorrect:boolean isCorrect3},
-        {ans: ans4, isCorrect:boolean isCorrect4},
+        "num": 4,
+      "question_text": "question_text4"?,
+      "options":[ 
+        {"ans": "ans1", "isCorrect": boolean isCorrect1},
+        {"ans": "ans2", "isCorrect": boolean isCorrect2},
+        {"ans": "ans3", "isCorrect": boolean isCorrect3},
+        {"ans": "ans4", "isCorrect": boolean isCorrect4},
       ]
     },{
-    num: 5,
-    question_text: question_text5?,
-    options:[ 
-      {ans: ans1, isCorrect: isCorrect1},
-      {ans: ans2, isCorrect: isCorrect2},
-      {ans: ans3, isCorrect: isCorrect3},
-      {ans: ans4, isCorrect: isCorrect4},
+      "num": 5,
+    "question_text": "question_text5"?,
+    "options":[ 
+      {"ans": "ans1", "isCorrect": boolean isCorrect1},
+      {"ans": "ans2", "isCorrect": boolean isCorrect2},
+      {"ans": "ans3", "isCorrect": boolean isCorrect3},
+      {"ans": "ans4", "isCorrect": boolean isCorrect4},
     ]
   }]
    using reference data question_txt from ${scrapedContent} starting from num = 1 until 15 . Convert the data to JSON and the options must have 4 characters and must follow the format provided. only And the data you created can use JSON.parse() without err and random position isCorrect.`,
-                model: input.getModelId(),
-                temperature: input.getTemperature(),
-                max_tokens: input.getMaxTokens(),
+                model: DEFAULT_MODEL_ID,
+                temperature: DEFAULT_TEMPERATURE,
+                max_tokens: DEFAULT_MAX_TOKENS,
             };
             const response = await this.openAiApi.createCompletion(params);
             const { data } = response;
-            console.log(data.choices[0].text.trim());
-            const return_data = JSON.parse(data.choices[0].text.trim());
-            if (return_data[0].options.length >= 4) {
-                return return_data;
+            let resultText = data.choices[0].text.trim().replace(/^\d+\.\s*|\d+\)\s*/gm, '');
+            const return_data = JSON.parse(resultText);
+            if (return_data[0].options.length >= 4 && return_data) {
+                return { result: return_data, statusCode: 200 };
             }
             else {
                 console.error('The format is incorrect. ');

@@ -1,12 +1,13 @@
 import { AddqService } from './addq.service';
-import { GetAiModelQuiz } from './model/get-quiz-model-answer';
+import { GenQuiz } from './dto/gen-quiz-dto';
 export declare class AddqController {
     private appqService;
     constructor(appqService: AddqService);
-    getModelAnswer(data: GetAiModelQuiz): Promise<any>;
-    regenQuiz(data: GetAiModelQuiz): Promise<any>;
     getDataQuiz(): void;
-    getScrapedContent(input: GetAiModelQuiz): Promise<{
-        result: any;
+    getScrapedContent(input: GenQuiz): Promise<{
+        result: {
+            result: any;
+            statusCode: number;
+        };
     }>;
 }

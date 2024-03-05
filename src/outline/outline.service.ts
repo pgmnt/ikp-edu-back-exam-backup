@@ -110,13 +110,14 @@ export class OutlineService {
             const lecTureWebsite = []
             const keys = Object.keys(lectureDetail)
             const keysOfWebsite = keys.filter((key)=> key.includes('lectureWebsite'))
-            keysOfWebsite.forEach((key)=> key.includes('lectureWebsite') ? lecTureWebsite.push(lectureDetail[key])   : null )
+            keysOfWebsite.forEach((key)=> key.includes('lectureWebsite') ? lecTureWebsite.push(lectureDetail[key]) : null )
             
             const newLecture = new this.LearningPathModel({
                 lectureNumber : lectureDetail.lectureNumber, 
                 lectureTitle : lectureDetail.lectureTitle,
                 lectureDescription : lectureDetail.lectureDescription,
-                lectureWebsite : lecTureWebsite
+                lectureWebsite1 : lecTureWebsite[0],
+                lectureWebsite2 : lecTureWebsite[1]
             });
 
            if(lectureDetail.quiz){

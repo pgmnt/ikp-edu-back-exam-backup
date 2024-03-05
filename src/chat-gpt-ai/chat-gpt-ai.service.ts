@@ -156,48 +156,6 @@ export class ChatGptAiService {
     }
   }
 
-  // parseLectureDetails(answerText: string) {
-  //   const lectureDetails: ChatGptResponseDocument['lectureDetails'] = [];
-  //   const lines = answerText.split('\n');
-  //   let currentLecture: any = {};
-
-  //   for (const line of lines) {
-  //     const lectureMatch = line.match(/Lecture (\d+): (.*)/);
-  //     if (lectureMatch) {
-  //       const [_, lectureNumber, lectureTitle] = lectureMatch;
-  //       currentLecture = {
-  //         lectureNumber,
-  //         lectureTitle,
-  //         lectureDescription: "",  // No description provided in the course outline
-  //         lectureWebsite1: "",     // Initialize website1
-  //         lectureWebsite2: "",     // Initialize website2
-  //       };
-  //       lectureDetails.push(currentLecture);
-  //     } else if ((line.startsWith("Description:")) || (line.startsWith("Description:\n"))) {
-  //       // Add the lecture description to the current lecture
-  //       currentLecture.lectureDescription = line.replace("Description:", "").trim();
-
-  //     } else if ((line.startsWith("Website")) || (line.startsWith("Website\n"))) {
-  //       // Add the lecture website to the current lecture
-  //       const websiteMatch = line.match((/Website \d+: (https:\/\/\S+)/)) || (line.match(/Website\d+: (https:\/\/\S+)/)) ;
-  //       if (websiteMatch) {
-  //         const [, website] = websiteMatch;
-  //         if (!currentLecture.lectureWebsite1) {
-  //           currentLecture.lectureWebsite1 = website;
-  //         } else if (!currentLecture.lectureWebsite2) {
-  //           currentLecture.lectureWebsite2 = website;
-  //         }
-  //       }
-  //     } else if (currentLecture && line.trim() === "") {
-  //       // If a blank line is encountered, reset currentLecture
-  //       currentLecture = {};
-  //     }
-  //     // else if (currentLecture.lectureWebsite1 == "N/A" || currentLecture.lectureWebsite2 == "N/A") {
-  //     //   currentLecture = {};
-  //     // }
-
-  //   }
-
   parseLectureDetails(answerText: string) {
     const lectureDetails: ChatGptResponseDocument["lectureDetails"] = [];
     const lines = answerText.split("\n");
@@ -294,8 +252,7 @@ export class ChatGptAiService {
       lectureDetails: lectureDetails.map((lecture: any) => ({
         lectureNumber: lecture.lectureNumber,
         lectureTitle: lecture.lectureTitle,
-        lectureWebsite1: lecture.lectureWebsite1,
-        lectureWebsite2: lecture.lectureWebsite2,
+        lectureWebsite: [lecture.lectureWebsite1 ,lecture.lectureWebsite2 ],
         lectureDescription: lecture.lectureDescription,
       })),
     });
