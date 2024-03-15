@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatGptAiModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const auth_module_1 = require("../auth/auth.module");
 const chat_gpt_ai_controller_1 = require("./chat-gpt-ai.controller");
 const chat_gpt_ai_service_1 = require("./chat-gpt-ai.service");
 const chat_gpt_ai_schemas_1 = require("./schemas/chat-gpt-ai-schemas");
@@ -19,7 +18,6 @@ exports.ChatGptAiModule = ChatGptAiModule;
 exports.ChatGptAiModule = ChatGptAiModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            auth_module_1.AuthModule,
             mongoose_1.MongooseModule.forFeature([{ name: 'ChatGptResponse', schema: chat_gpt_ai_schemas_1.ChatSchema }]),
         ],
         controllers: [chat_gpt_ai_controller_1.ChatGptAiController],

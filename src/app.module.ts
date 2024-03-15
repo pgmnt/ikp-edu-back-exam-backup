@@ -3,13 +3,15 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CourseModule } from './course/course.module';
-import { AuthModule } from './auth/auth.module';
+// import { CourseModule } from './course/course.module';
+// import { AuthModule } from './auth/auth.module';
 import { ChatCompletionApiModule } from './chat-completion-api/chat-completion-api.module';
 import { ChatGptAiModule } from './chat-gpt-ai/chat-gpt-ai.module';
-import { AddqModule } from './addq/addq.module';
-import { OutlineModule } from './outline/outline.module';
-import { UserModule } from './user/user.module';
+// import { AddqModule } from './addq/addq.module';
+// import { OutlineModule } from './outline/outline.module';
+// import { UserModule } from './user/user.module';
+import { ExamModule } from './exam/exam.module';
+
 
 @Module({
   imports: [
@@ -19,13 +21,12 @@ import { UserModule } from './user/user.module';
     }),
     MongooseModule.forRoot(process.env.DB_URI),
     ChatGptAiModule,
-    AuthModule,
-    AddqModule,
-    // ExamModule,
-    CourseModule,
-    OutlineModule,
-    UserModule,
-    
+    // AuthModule,
+    // AddqModule,
+    ExamModule,
+    // CourseModule,
+    // OutlineModule,
+    // UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

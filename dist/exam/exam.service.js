@@ -17,17 +17,14 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let ExamService = class ExamService {
-    constructor(ExamModel, OutlineModel) {
+    constructor(ExamModel) {
         this.ExamModel = ExamModel;
-        this.OutlineModel = OutlineModel;
     }
 };
 exports.ExamService = ExamService;
 exports.ExamService = ExamService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)('Exam')),
-    __param(1, (0, mongoose_1.InjectModel)('Outline')),
-    __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], ExamService);
 //# sourceMappingURL=exam.service.js.map

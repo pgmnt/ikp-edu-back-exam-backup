@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Examination } from './schemas/exam.schema';
-import { Outline } from 'src/outline/schemas/outline.schema';
+// import { Outline } from 'src/outline/schemas/outline.schema';
 
 @Injectable()
 export class ExamService {
 
     constructor(
         @InjectModel('Exam') private ExamModel: Model<Examination>,
-        @InjectModel('Outline') private OutlineModel: Model<Outline>,
+        // @InjectModel('Outline') private OutlineModel: Model<Outline>,
       ) {}
 
     //   async Create_Exam (id : string){

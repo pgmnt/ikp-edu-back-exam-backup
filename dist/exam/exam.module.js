@@ -12,7 +12,6 @@ const exam_service_1 = require("./exam.service");
 const exam_controller_1 = require("./exam.controller");
 const mongoose_1 = require("@nestjs/mongoose");
 const exam_schema_1 = require("./schemas/exam.schema");
-const outline_schema_1 = require("../outline/schemas/outline.schema");
 let ExamModule = class ExamModule {
 };
 exports.ExamModule = ExamModule;
@@ -20,7 +19,6 @@ exports.ExamModule = ExamModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: 'Exam', schema: exam_schema_1.ExamSchema }]),
-            mongoose_1.MongooseModule.forFeature([{ name: 'Outline', schema: outline_schema_1.OutlineSchema }]),
         ],
         providers: [exam_service_1.ExamService],
         controllers: [exam_controller_1.ExamController]

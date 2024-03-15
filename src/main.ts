@@ -16,7 +16,7 @@ async function bootstrap() {
     credentials: true, 
   };
   app.enableCors(corsOptions);
-  await app.listen(3313);
+  await app.listen(3002);
   
 }
 bootstrap();
